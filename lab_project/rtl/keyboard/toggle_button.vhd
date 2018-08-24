@@ -2,7 +2,7 @@ library ieee ;
 use ieee.std_logic_1164.all ;
 use ieee.std_logic_unsigned.all ;
 
-entity left_shift is
+entity toggle_button is
 	port ( 
 		resetN : in std_logic ;
 		clk : in std_logic ;
@@ -11,9 +11,9 @@ entity left_shift is
 		break : in std_logic ;
 		key_code : in std_logic_vector (7 downto 0);
 		dout : out std_logic );
-end left_shift ;
+end toggle_button ;
 
-architecture behavior of left_shift is
+architecture behavior of toggle_button is
 	type state is (idle, pressed);
 	signal present_state : state;
 	

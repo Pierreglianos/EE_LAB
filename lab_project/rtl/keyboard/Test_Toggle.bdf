@@ -24,7 +24,7 @@ agreement for further details.
 	(input)
 	(rect 64 272 232 288)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "resetN" (rect 5 0 39 12)(font "Arial" ))
+	(text "resetN" (rect 5 0 38 12)(font "Arial" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -40,7 +40,7 @@ agreement for further details.
 	(input)
 	(rect 56 320 224 336)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "clk" (rect 5 0 20 17)(font "Intel Clear" ))
+	(text "clk" (rect 5 0 19 17)(font "Intel Clear" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -56,7 +56,7 @@ agreement for further details.
 	(input)
 	(rect 96 472 264 488)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "KBD_CLK" (rect 5 0 53 17)(font "Intel Clear" ))
+	(text "KBD_CLK" (rect 5 0 52 17)(font "Intel Clear" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -72,7 +72,7 @@ agreement for further details.
 	(input)
 	(rect 248 552 416 568)
 	(text "INPUT" (rect 125 0 153 10)(font "Arial" (font_size 6)))
-	(text "KBD_DAT" (rect 5 0 53 17)(font "Intel Clear" ))
+	(text "KBD_DAT" (rect 5 0 52 17)(font "Intel Clear" ))
 	(pt 168 8)
 	(drawing
 		(line (pt 84 12)(pt 109 12))
@@ -83,6 +83,22 @@ agreement for further details.
 		(line (pt 109 12)(pt 113 8))
 	)
 	(text "VCC" (rect 128 7 148 17)(font "Arial" (font_size 6)))
+)
+(pin
+	(input)
+	(rect 488 432 664 448)
+	(text "INPUT" (rect 133 0 161 10)(font "Arial" (font_size 6)))
+	(text "key_code[7..0]" (rect 5 0 80 12)(font "Arial" ))
+	(pt 176 8)
+	(drawing
+		(line (pt 92 12)(pt 117 12))
+		(line (pt 92 4)(pt 117 4))
+		(line (pt 121 8)(pt 176 8))
+		(line (pt 92 12)(pt 92 4))
+		(line (pt 117 4)(pt 121 8))
+		(line (pt 117 12)(pt 121 8))
+	)
+	(text "VCC" (rect 136 7 156 17)(font "Arial" (font_size 6)))
 )
 (pin
 	(output)
@@ -212,21 +228,6 @@ agreement for further details.
 	)
 	(drawing
 		(rectangle (rect 16 16 160 128))
-	)
-)
-(symbol
-	(rect 520 408 664 488)
-	(text "my_lpm_constant" (rect 5 0 93 12)(font "Arial" ))
-	(text "inst5" (rect 8 64 30 81)(font "Intel Clear" ))
-	(port
-		(pt 144 32)
-		(output)
-		(text "result[7..0]" (rect 0 0 53 12)(font "Arial" ))
-		(text "result[7..0]" (rect 79 27 132 39)(font "Arial" ))
-		(line (pt 144 32)(pt 128 32)(line_width 3))
-	)
-	(drawing
-		(rectangle (rect 16 16 128 64))
 	)
 )
 (connector
