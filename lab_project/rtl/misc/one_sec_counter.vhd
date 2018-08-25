@@ -9,7 +9,7 @@ entity one_sec_counter is port (
 		);
 end one_sec_counter ;
 architecture arc_one_sec_counter of one_sec_counter is
-	constant sec_real       : integer := 50000000 ; -- for Real operation
+	constant sec_real       : integer := 5000000 ; -- for Real operation
 --    constant sec_real       : integer := 5 ; -- for simulation
     constant sec_turbo  : integer := sec_real /10 ;
 	signal one_sec_flag	: std_logic ; 

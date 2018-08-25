@@ -49,7 +49,10 @@ begin
 				ObjectStartY_t	:= StartY ;
 			
 			elsif rising_edge(CLK) then
-				if (enable = '1' and make = '1') then
+			
+			-- !!!!!!!!!!!!!!!!!!!!!!!!!
+			-- change to make = '1'
+				if (enable = '1' and make = '0') then
 					
 					case kbd_data is
 						when left_arrow =>
@@ -59,8 +62,8 @@ begin
 							end if;
 						when right_arrow =>
 							ObjectStartX_t := ObjectStartX_t + width_t + step_wid;
-							if ObjectStartX_t > y_frame then
-								ObjectStartX_t := y_frame;
+							if ObjectStartX_t > x_frame then
+								ObjectStartX_t := x_frame;
 							end if;
 							ObjectStartX_t := ObjectStartX_t - width_t;
 						when others =>

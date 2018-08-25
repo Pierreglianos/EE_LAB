@@ -30,14 +30,14 @@ set_location_assignment PIN_AA15 -to KEY[3]
 # SW
 #============================================================
 set_location_assignment PIN_AB30 -to kbd_data[0] ; #SW[0]
-set_location_assignment PIN_Y27 -to  kbd_data[0] ; #SW[1]
-set_location_assignment PIN_AB28 -to kbd_data[0] ; #SW[2]
-set_location_assignment PIN_AC30 -to kbd_data[0] ; #SW[3]
-set_location_assignment PIN_W25 -to  kbd_data[0] ; #SW[4]
-set_location_assignment PIN_V25 -to  kbd_data[0] ; #SW[5]
-set_location_assignment PIN_AC28 -to kbd_data[0] ; #SW[6]
-set_location_assignment PIN_AD30 -to kbd_data[0] ; #SW[7]
-set_location_assignment PIN_AC29 -to kbd_data[0] ; #SW[8]
+set_location_assignment PIN_Y27 -to  kbd_data[1] ; #SW[1]
+set_location_assignment PIN_AB28 -to kbd_data[2] ; #SW[2]
+set_location_assignment PIN_AC30 -to kbd_data[3] ; #SW[3]
+set_location_assignment PIN_W25 -to  kbd_data[4] ; #SW[4]
+set_location_assignment PIN_V25 -to  kbd_data[5] ; #SW[5]
+set_location_assignment PIN_AC28 -to kbd_data[6] ; #SW[6]
+set_location_assignment PIN_AD30 -to kbd_data[7] ; #SW[7]
+set_location_assignment PIN_AC29 -to kbd_data[8] ; #SW[8]
 set_location_assignment PIN_AA30 -to MICROPHON_ON ; #SW[9]
 
 #============================================================
