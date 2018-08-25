@@ -8,16 +8,22 @@ use ieee.numeric_std.all;
 entity objects_mux is
 port 	(
 		CLK	: in std_logic; --						//	27 MHz
-		b_drawing_request : in std_logic;
-		b_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- b  input signal 
 		
-		c_drawing_request : in std_logic;
-		c_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- b  input signal 
+		background_drawing_request : in std_logic;
+		background_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- background  input signal 
 		
-		y_drawing_request : in std_logic;	-- not used in this exammple 
-		y_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	,  -- y input signal 
-
-
+		player1_drawing_request : in std_logic;
+		player1_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, player 1 input signal 
+		
+		player2_drawing_request : in std_logic;
+		player2_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, player 1 input signal 
+		
+		fireball1_drawing_request : in std_logic;	 
+		fireball1_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	,  fireball 1 input signal 
+		
+		fireball2_drawing_request : in std_logic;	 
+		fireball2_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	,  fireball 2 input signal 
+		
 		m_mVGA_R 	: out std_logic_vector(7 downto 0); --	,  
 		m_mVGA_G 	: out std_logic_vector(7 downto 0); --	, 
 		m_mVGA_B 	: out std_logic_vector(7 downto 0); --	, 
@@ -39,20 +45,26 @@ begin
 			m_mVGA_t	<=  (others => '0') ; 	
 
 	elsif rising_edge(CLK) then
-		if (b_drawing_request = '1' ) then  
-			m_mVGA_t <= b_mVGA_RGB;  --first priority from B 
-		elsif (c_drawing_request = '1' ) then  
-			m_mVGA_t <= c_mVGA_RGB;  --first priority from B 
-		else
-			m_mVGA_t <= y_mVGA_RGB ; -- second priority from y
+		if (fireball2_drawing_request = '1' ) then  
+			m_mVGA_t <= fireball2__mVGA_RGB;  
+		elsif (fireball1_drawing_request = '1' ) then  
+			m_mVGA_t <= fireball2__mVGA_RGB;  
+		elsif (player2_drawing_request = '1' ) then  
+			m_mVGA_t <= player2__mVGA_RGB;  
+		elsif (player1_drawing_request = '1' ) then  
+			m_mVGA_t <= player1__mVGA_RGB;
+		elsif(background_drawing_request = '1' )
+			m_mVGA_t <= background_mVGA_RGB ;
+		else 
+			m_mVGA_t	<=  (others => '0') ; 
 		end if; 
 	end if ; 
 
 end process ;
 
-m_mVGA_R	<= m_mVGA_t(7 downto 5)& "00000"; -- expand to 10 bits 
-m_mVGA_G	<= m_mVGA_t(4 downto 2)& "00000";
-m_mVGA_B	<= m_mVGA_t(1 downto 0)& "000000";
+m_mVGA_R	<= m_mVGA_t(7 downto 5) & "00000"; -- expand to 10 bits 
+m_mVGA_G	<= m_mVGA_t(4 downto 2) & "00000";
+m_mVGA_B	<= m_mVGA_t(1 downto 0) & "000000";
 
 
 end behav;
