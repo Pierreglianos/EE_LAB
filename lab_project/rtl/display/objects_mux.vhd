@@ -46,14 +46,14 @@ begin
 
 	elsif rising_edge(CLK) then
 		if (fireball2_drawing_request = '1' ) then  
-			m_mVGA_t <= fireball2__mVGA_RGB;  
+			m_mVGA_t <= fireball2_mVGA_RGB;  
 		elsif (fireball1_drawing_request = '1' ) then  
-			m_mVGA_t <= fireball2__mVGA_RGB;  
+			m_mVGA_t <= fireball2_mVGA_RGB;  
 		elsif (player2_drawing_request = '1' ) then  
-			m_mVGA_t <= player2__mVGA_RGB;  
+			m_mVGA_t <= player2_mVGA_RGB;  
 		elsif (player1_drawing_request = '1' ) then  
-			m_mVGA_t <= player1__mVGA_RGB;
-		elsif(background_drawing_request = '1' )
+			m_mVGA_t <= player1_mVGA_RGB;
+		elsif(background_drawing_request = '1' ) then
 			m_mVGA_t <= background_mVGA_RGB ;
 		else 
 			m_mVGA_t	<=  (others => '0') ; 
