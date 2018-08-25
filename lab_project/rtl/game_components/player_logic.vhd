@@ -21,40 +21,58 @@ end player_logic;
 
 architecture behav of player_logic is 
 
-constant StartX : integer := 580;   -- starting point
-constant StartY : integer := 385;
+constant left_arrow  : std_logic_vector(8 downto 0) := "101101011"; -- 0x6B extended
+constant right_arrow : std_logic_vector(8 downto 0) := "101110100"; -- 0x74 extended
 
-constant	x_upper_frame	: integer :=	500;
-constant	y_upper_frame	: integer :=	400;
+constant step_wid : integer := 3;
+
+constant length_t : integer := 26;
+constant width_t  : integer := 26;
+
+constant	x_frame	: integer :=	640;
+constant	y_frame	: integer :=	480;
+
+constant StartX : integer := width_t + 20;   -- starting point
+constant StartY : integer := y_frame - length_t;
 
 
-signal ObjectStartX_t : integer range 0 to 640;  --vga screen size 
-signal ObjectStartY_t : integer range 0 to 480;
 begin
 
 
 		process ( RESETn,CLK)
+			variable ObjectStartX_t : integer;
+			variable ObjectStartY_t : integer;
+		
 		begin
-		  if RESETn = '0' then
-				ObjectStartX_t	<= StartX;
-				ObjectStartY_t	<= StartY ;
-		elsif rising_edge(CLK) then
-			if enable = '1' then
-				if timer_done = '1' then
-					if ObjectStartX_t <= 100 then
-						ObjectStartX_t <= StartX;
-						ObjectStartY_t <= StartY;
-					else
-						ObjectStartX_t  <= ObjectStartY_t * ObjectStartY_t/256;  -- acclerate 
-						ObjectStartY_t  <= ObjectStartY_t - 1; -- move to the right 
-					end if;
-				end if;
-			end if;
+			if RESETn = '0' then
+				ObjectStartX_t	:= StartX;
+				ObjectStartY_t	:= StartY ;
 			
-		end if;
+			elsif rising_edge(CLK) then
+				if (enable = '1' and make = '1') then
+					
+					case kbd_data is
+						when left_arrow =>
+							ObjectStartX_t := ObjectStartX_t - step_wid;
+							if ObjectStartX_t < 0 then
+								ObjectStartX_t := 0;
+							end if;
+						when right_arrow =>
+							ObjectStartX_t := ObjectStartX_t + width_t + step_wid;
+							if ObjectStartX_t > y_frame then
+								ObjectStartX_t := y_frame;
+							end if;
+							ObjectStartX_t := ObjectStartX_t - width_t;
+						when others =>
+							ObjectStartX_t := ObjectStartX_t;
+							ObjectStartY_t := ObjectStartY_t;
+						end case;
+						
+				end if;
+				
+			end if;
+			ObjectStartX	<= ObjectStartX_t;		-- copy to outputs 	
+			ObjectStartY	<= ObjectStartY_t;	
 		end process ;
-ObjectStartX	<= ObjectStartX_t;		-- copy to outputs 	
-ObjectStartY	<= ObjectStartY_t;	
-
 
 end behav;
