@@ -40,6 +40,12 @@ constant	y_frame	: integer :=	480;
 constant StartX : integer := width_t + 20;   -- starting point
 constant StartY : integer := y_frame - length_t;
 
+constant g : integer := 10;
+constant half_g : integer := g / 2;
+constant jump_init_velocity : integer := 40;
+constant jump_change_direction_time : integer := jump_init_velocity / g;
+constant jump_change_direction_y : integer := StartY - jump_init_velocity * jump_change_direction_time + half_g * jump_change_direction_time * jump_change_direction_time;
+
 
 begin
 
@@ -47,12 +53,13 @@ begin
 		process ( RESETn,CLK)
 			variable ObjectStartX_t : integer;
 			variable ObjectStartY_t : integer;
+			variable jump_t : integer;
 		
 		begin
 			if RESETn = '0' then
 				ObjectStartX_t	:= StartX;
 				ObjectStartY_t	:= StartY ;
-			
+				jump_t := 0;
 			elsif rising_edge(CLK) then
 
 				if (enable = '1' and valid = '1') then
@@ -70,7 +77,17 @@ begin
 								ObjectStartX_t := x_frame;
 							end if;
 							ObjectStartX_t := ObjectStartX_t - width_t;
-							
+						
+						when jump =>
+							jump_t := jump_t + 1;
+							if(jump_t < jump_change_direction_time) then -- moving upwards
+								ObjectStartY_t := StartY - jump_init_velocity * jump_t + half_g *  jump_t * jump_t;	
+							elsif (jump_t < 2 * jump_change_direction_time) then -- moving downwards
+								ObjectStartY_t := jump_change_direction_y + half_g *  jump_t * jump_t;
+							else  -- back to the ground
+								jump_t := 0;
+							end if; 
+						
 						when others =>
 							ObjectStartX_t := ObjectStartX_t;
 							ObjectStartY_t := ObjectStartY_t;
