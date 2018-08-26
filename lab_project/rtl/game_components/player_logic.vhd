@@ -10,9 +10,8 @@ port 	(
 		RESETn			: in std_logic; --			//	50 MHz
 		timer_done		: in std_logic;
 		enable			: in std_logic; -- 	//enable movement
-		make				: in std_logic;
-		break				: in std_logic;
-		kbd_data			: in std_logic_vector(8 downto 0);
+		valid				: in std_logic;
+		action			: in std_logic_vector(2 downto 0);
 		ObjectStartX	: out integer ;
 		ObjectStartY	: out integer
 		
@@ -21,8 +20,14 @@ end player_logic;
 
 architecture behav of player_logic is 
 
-constant left_arrow  : std_logic_vector(8 downto 0) := "101101011"; -- 0x6B extended
-constant right_arrow : std_logic_vector(8 downto 0) := "101110100"; -- 0x74 extended
+constant none			: std_logic_vector(2 downto 0) := "000";
+constant move_left	: std_logic_vector(2 downto 0) := "001";
+constant move_right	: std_logic_vector(2 downto 0) := "010";
+constant jump			: std_logic_vector(2 downto 0) := "011";
+constant duck			: std_logic_vector(2 downto 0) := "100";
+constant fireball		: std_logic_vector(2 downto 0) := "101";
+--constant special_attack_1		: std_logic_vector(2 downto 0) := "110";
+--constant special_attack_2		: std_logic_vector(2 downto 0) := "111";
 
 constant step_wid : integer := 3;
 
@@ -49,23 +54,23 @@ begin
 				ObjectStartY_t	:= StartY ;
 			
 			elsif rising_edge(CLK) then
-			
-			-- !!!!!!!!!!!!!!!!!!!!!!!!!
-			-- change to make = '1'
-				if (enable = '1' and make = '0') then
+
+				if (enable = '1' and valid = '1') then
 					
-					case kbd_data is
-						when left_arrow =>
+					case action is
+						when move_left =>
 							ObjectStartX_t := ObjectStartX_t - step_wid;
 							if ObjectStartX_t < 0 then
 								ObjectStartX_t := 0;
 							end if;
-						when right_arrow =>
+							
+						when move_right =>
 							ObjectStartX_t := ObjectStartX_t + width_t + step_wid;
 							if ObjectStartX_t > x_frame then
 								ObjectStartX_t := x_frame;
 							end if;
 							ObjectStartX_t := ObjectStartX_t - width_t;
+							
 						when others =>
 							ObjectStartX_t := ObjectStartX_t;
 							ObjectStartY_t := ObjectStartY_t;
