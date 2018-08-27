@@ -55,7 +55,8 @@ begin
 	variable ObjectStartX_t	: integer range 0 to 640;  --vga screen size 
 	variable ObjectStartY_t	: integer range 0 to 480;
 	
-	variable movement_direction : std_logic;
+	variable movement_direction 	: std_logic;
+	variable hit_occured				: std_logic;
 		
 		begin
 		if RESETn = '0' then
@@ -68,9 +69,14 @@ begin
 			ObjectStartY_t	:= PlayerPosY;
 			draw <= '0';
 			present_state 	:=	idle;
+			hit_occured = '0';
 
 		elsif rising_edge(CLK) then
 			if enable = '1' then
+			
+				if hit = '1' then -- stop attack
+					hit_occured := '1';
+				end if;
 				
 				case present_state is
 					when idle =>
@@ -89,8 +95,14 @@ begin
 						end if;
 					
 					when ongoing =>
+	
 						if timer_done = '1' then
-							if(movement_direction = left_to_right_direction) then 
+							if hit_ocuured = '1' then
+								draw <= '0';
+								present_state := idle;
+								hit_occured = '0';
+								
+							elsif (movement_direction = left_to_right_direction) then 
 								ObjectStartX_t  := ObjectStartX_t + speed;
 								if ObjectStartX_t >= 638 then
 									draw <= '0';

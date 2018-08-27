@@ -31,8 +31,8 @@ constant move_right	: std_logic_vector(2 downto 0) := "010";
 constant jump			: std_logic_vector(2 downto 0) := "011";
 constant duck			: std_logic_vector(2 downto 0) := "100";
 constant fireball		: std_logic_vector(2 downto 0) := "101";
---constant special_attack_1		: std_logic_vector(2 downto 0) := "110";
---constant special_attack_2		: std_logic_vector(2 downto 0) := "111";
+--constant kick		: std_logic_vector(2 downto 0) := "110";
+--constant punch		: std_logic_vector(2 downto 0) := "111";
 
 constant step_wid 	: integer := 6;
 constant duck_size	: integer := 10;
