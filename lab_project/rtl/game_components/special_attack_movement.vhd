@@ -28,6 +28,7 @@ architecture behav of special_attack_movement is
 
 
 constant hands_dist		: integer :=	8;
+constant player_width	: integer :=	26;
 
 constant	x_upper_frame	: integer :=	638;
 constant	y_upper_frame	: integer :=	400;
@@ -50,7 +51,7 @@ begin
 		
 		begin
 		if RESETn = '0' then
-			ObjectStartX_t	:= PlayerPosX;
+			ObjectStartX_t	:= PlayerPosX + player_width + 1;
 			ObjectStartY_t	:= PlayerPosY;
 			draw <= '0';
 			present_state 	:=	idle;
@@ -61,7 +62,7 @@ begin
 				case present_state is
 					when idle =>
 						if (valid ='1' and action = fireball) then
-							ObjectStartX_t	:= PlayerPosX;
+							ObjectStartX_t	:= PlayerPosX + player_width + 1;
 							ObjectStartY_t	:= PlayerPosY;
 							draw <= '1';
 							present_state := ongoing;
@@ -71,7 +72,7 @@ begin
 						if timer_done = '1' then
 							ObjectStartX_t  := ObjectStartX_t + 6;
 							
-							if ObjectStartX_t <= 638 then
+							if ObjectStartX_t >= 638 then
 								draw <= '0';
 								present_state := idle;
 							end if;

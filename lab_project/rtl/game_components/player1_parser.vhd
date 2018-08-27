@@ -59,7 +59,9 @@ begin
 			
 			elsif rising_edge(CLK) then
 				if enable = '1'	then
-					if make = '1' then
+					-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					--change to make = '1'
+					if make = '0' then
 						valid <= '1';
 						case kbd_data is
 							when left_arrow =>

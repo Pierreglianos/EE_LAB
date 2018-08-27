@@ -12,6 +12,9 @@ port 	(
 		enable			: in std_logic; -- 	//enable movement
 		valid				: in std_logic;
 		action			: in std_logic_vector(2 downto 0);
+		--- FOR DEBUG
+		initial_vel : integer;		
+		---
 		ObjectStartX	: out integer ;
 		ObjectStartY	: out integer
 		
@@ -42,9 +45,12 @@ constant StartY : integer := y_frame - length_t;
 
 constant g : integer := 10;
 constant half_g : integer := g / 2;
-constant jump_init_velocity : integer := 40;
-constant jump_change_direction_time : integer := jump_init_velocity / g;
-constant jump_change_direction_y : integer := StartY - jump_init_velocity * jump_change_direction_time + half_g * jump_change_direction_time * jump_change_direction_time;
+--constant jump_init_velocity : integer := 24;
+--constant initial_vel : integer := 28;
+--constant jump_change_direction_y : integer := StartY - 32;
+
+type state is (idle, jumping, falling);
+
 
 
 begin
@@ -54,47 +60,58 @@ begin
 			variable ObjectStartX_t : integer;
 			variable ObjectStartY_t : integer;
 			variable jump_t : integer;
-		
+			variable present_state : state := idle;
+			
 		begin
+			
 			if RESETn = '0' then
 				ObjectStartX_t	:= StartX;
 				ObjectStartY_t	:= StartY ;
-				jump_t := 0;
+				jump_t 			:= 0;
+				present_state 	:= idle;
+				
 			elsif rising_edge(CLK) then
 
-				if (enable = '1' and valid = '1') then
-					
-					case action is
-						when move_left =>
-							ObjectStartX_t := ObjectStartX_t - step_wid;
-							if ObjectStartX_t < 0 then
-								ObjectStartX_t := 0;
-							end if;
+				if enable = '1' then
+					if valid = '1' then
+						case action is
+							when move_left =>
+								ObjectStartX_t := ObjectStartX_t - step_wid;
+								if ObjectStartX_t < 0 then
+									ObjectStartX_t := 0;
+								end if;
 							
-						when move_right =>
-							ObjectStartX_t := ObjectStartX_t + width_t + step_wid;
-							if ObjectStartX_t > x_frame then
-								ObjectStartX_t := x_frame;
-							end if;
-							ObjectStartX_t := ObjectStartX_t - width_t;
+							when move_right =>
+								ObjectStartX_t := ObjectStartX_t + width_t + step_wid;
+								if ObjectStartX_t > x_frame then
+									ObjectStartX_t := x_frame;
+								end if;
+								ObjectStartX_t := ObjectStartX_t - width_t;
 						
-						when jump =>
-							jump_t := jump_t + 1;
-							if(jump_t < jump_change_direction_time) then -- moving upwards
-								ObjectStartY_t := StartY - jump_init_velocity * jump_t + half_g *  jump_t * jump_t;	
-							elsif (jump_t < 2 * jump_change_direction_time) then -- moving downwards
-								ObjectStartY_t := jump_change_direction_y + half_g *  jump_t * jump_t;
-							else  -- back to the ground
-								jump_t := 0;
-							end if; 
-						
-						when others =>
-							ObjectStartX_t := ObjectStartX_t;
-							ObjectStartY_t := ObjectStartY_t;
-						end case;
-						
+							when jump =>
+								if (present_state = idle) then
+									jump_t := 0;
+									present_state := jumping;
+								end if;
+
+							when others =>
+								ObjectStartX_t := ObjectStartX_t;
+								ObjectStartY_t := ObjectStartY_t;
+							end case;
+					end if;
+					
+					-- make sure about the timer
+					if (timer_done = '1' and present_state = jumping) then
+						jump_t := jump_t + 1;
+						ObjectStartY_t := StartY - (initial_vel * jump_t - jump_t * jump_t)/8;
+						if (ObjectStartY_t > StartY)  then -- back to the ground
+							ObjectStartY_t := StartY;
+							present_state := idle;
+							jump_t := 0;
+						end if;
+					end if;
+					
 				end if;
-				
 			end if;
 			ObjectStartX	<= ObjectStartX_t;		-- copy to outputs 	
 			ObjectStartY	<= ObjectStartY_t;	
