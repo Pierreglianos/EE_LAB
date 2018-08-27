@@ -6,8 +6,8 @@ use ieee.numeric_std.all;
 
 entity player_logic is
 port 	(
-		CLK				: in std_logic; --						//	27 MHz
-		RESETn			: in std_logic; --			//	50 MHz
+		CLK				: in std_logic; --						//	50 MHz
+		RESETn			: in std_logic; --
 		timer_done		: in std_logic;
 		enable			: in std_logic; -- 	//enable movement
 		valid				: in std_logic;
@@ -16,8 +16,8 @@ port 	(
 		initial_vel : integer;		
 		---
 		ObjectStartX	: out integer ;
-		ObjectStartY	: out integer
-		
+		ObjectStartY	: out integer;
+		PlayerState		: out std_logic_vector(2 downto 0)
 	);
 end player_logic;
 
@@ -32,7 +32,9 @@ constant fireball		: std_logic_vector(2 downto 0) := "101";
 --constant special_attack_1		: std_logic_vector(2 downto 0) := "110";
 --constant special_attack_2		: std_logic_vector(2 downto 0) := "111";
 
-constant step_wid : integer := 3;
+constant step_wid 	: integer := 6;
+constant duck_size	: integer := 10;
+
 
 constant length_t : integer := 26;
 constant width_t  : integer := 26;
@@ -43,13 +45,11 @@ constant	y_frame	: integer :=	480;
 constant StartX : integer := width_t + 20;   -- starting point
 constant StartY : integer := y_frame - length_t;
 
-constant g : integer := 10;
-constant half_g : integer := g / 2;
 --constant jump_init_velocity : integer := 24;
 --constant initial_vel : integer := 28;
 --constant jump_change_direction_y : integer := StartY - 32;
 
-type state is (idle, jumping, falling);
+type state is (idle, jumping, ducking);
 
 
 
@@ -69,6 +69,7 @@ begin
 				ObjectStartY_t	:= StartY ;
 				jump_t 			:= 0;
 				present_state 	:= idle;
+
 				
 			elsif rising_edge(CLK) then
 
@@ -93,6 +94,7 @@ begin
 									jump_t := 0;
 									present_state := jumping;
 								end if;
+							
 
 							when others =>
 								ObjectStartX_t := ObjectStartX_t;
@@ -100,21 +102,31 @@ begin
 							end case;
 					end if;
 					
+					
 					-- make sure about the timer
-					if (timer_done = '1' and present_state = jumping) then
-						jump_t := jump_t + 1;
-						ObjectStartY_t := StartY - (initial_vel * jump_t - jump_t * jump_t)/8;
-						if (ObjectStartY_t > StartY)  then -- back to the ground
-							ObjectStartY_t := StartY;
+					if (timer_done = '1') then
+						case present_state is
+						when jumping =>
+			
+							jump_t := jump_t + 1;
+							ObjectStartY_t := StartY - (initial_vel * jump_t - jump_t * jump_t)/8;
+							if (ObjectStartY_t > StartY)  then -- back to the ground
+								ObjectStartY_t := StartY;
+								present_state := idle;
+								jump_t := 0;
+							end if;
+						
+						when others =>
 							present_state := idle;
-							jump_t := 0;
-						end if;
+						end case;
+
 					end if;
 					
 				end if;
 			end if;
 			ObjectStartX	<= ObjectStartX_t;		-- copy to outputs 	
-			ObjectStartY	<= ObjectStartY_t;	
+			ObjectStartY	<= ObjectStartY_t;
+			PlayerState		<= none;
 		end process ;
 
 end behav;

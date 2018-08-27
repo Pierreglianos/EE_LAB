@@ -61,7 +61,7 @@ begin
 				if enable = '1'	then
 					-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 					--change to make = '1'
-					if make = '0' then
+					if make = '1' then
 						valid <= '1';
 						case kbd_data is
 							when left_arrow =>
@@ -85,7 +85,7 @@ begin
 							end case;
 						
 					-- TODO make sure about this
-					elsif break = '1' then
+					elsif make = '0' or break = '1' then
 						valid <= '0';	
 					end if;
 					

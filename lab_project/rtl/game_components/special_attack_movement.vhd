@@ -28,6 +28,7 @@ architecture behav of special_attack_movement is
 
 
 constant hands_dist		: integer :=	8;
+constant speed				: integer := 	8;
 constant player_width	: integer :=	26;
 
 constant	x_upper_frame	: integer :=	638;
@@ -70,7 +71,7 @@ begin
 					
 					when ongoing =>
 						if timer_done = '1' then
-							ObjectStartX_t  := ObjectStartX_t + 6;
+							ObjectStartX_t  := ObjectStartX_t + speed;
 							
 							if ObjectStartX_t >= 638 then
 								draw <= '0';
