@@ -12,12 +12,14 @@ port 	(
 		enable			: in std_logic; -- 	//enable movement
 		valid				: in std_logic;
 		action			: in std_logic_vector(2 downto 0);
+		initial_direction : in std_logic;
 		--- FOR DEBUG
 		initial_vel : integer;		
 		---
 		ObjectStartX	: out integer ;
 		ObjectStartY	: out integer;
-		PlayerState		: out std_logic_vector(2 downto 0)
+		PlayerState		: out std_logic_vector(2 downto 0);
+		movement_direction : out std_logic
 	);
 end player_logic;
 
@@ -45,6 +47,9 @@ constant	y_frame	: integer :=	480;
 constant StartX : integer := width_t + 20;   -- starting point
 constant StartY : integer := y_frame - length_t;
 
+constant left_to_right_direction : std_logic := '0';
+constant right_to_left_direction : std_logic := '1';
+
 --constant jump_init_velocity : integer := 24;
 --constant initial_vel : integer := 28;
 --constant jump_change_direction_y : integer := StartY - 32;
@@ -62,6 +67,9 @@ begin
 			variable jump_t : integer;
 			variable present_state : state := idle;
 			
+			variable player_direction_tmp : std_logic; --changed 
+			variable player_direction : std_logic; -- changed only when timer is done
+			
 		begin
 			
 			if RESETn = '0' then
@@ -69,21 +77,26 @@ begin
 				ObjectStartY_t	:= StartY ;
 				jump_t 			:= 0;
 				present_state 	:= idle;
-
+				player_direction_tmp := initial_direction;
+				player_direction := initial_direction;
 				
 			elsif rising_edge(CLK) then
 
 				if enable = '1' then
 					if valid = '1' then
 						case action is
+						-- TODO: maybe move the following code to 
+						-- if (timer_done = '1')
 							when move_left =>
 								ObjectStartX_t := ObjectStartX_t - step_wid;
+								player_direction  := right_to_left_direction;
 								if ObjectStartX_t < 0 then
 									ObjectStartX_t := 0;
 								end if;
 							
 							when move_right =>
 								ObjectStartX_t := ObjectStartX_t + width_t + step_wid;
+								player_direction  := left_to_right_direction;
 								if ObjectStartX_t > x_frame then
 									ObjectStartX_t := x_frame;
 								end if;
@@ -119,7 +132,7 @@ begin
 						when others =>
 							present_state := idle;
 						end case;
-
+						player_direction := player_direction_tmp;
 					end if;
 					
 				end if;
@@ -127,6 +140,7 @@ begin
 			ObjectStartX	<= ObjectStartX_t;		-- copy to outputs 	
 			ObjectStartY	<= ObjectStartY_t;
 			PlayerState		<= none;
+			movement_direction <= player_direction;
 		end process ;
 
 end behav;

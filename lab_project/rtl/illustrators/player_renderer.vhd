@@ -15,6 +15,7 @@ port 	(
 		ObjectStartX	: in integer;
 		ObjectStartY 	: in integer;
 		PlayerState		: in std_logic_vector(2 downto 0);
+		player_direction : in std_logic;
 		drawing_request	: out std_logic ;
 		mVGA_RGB 	: out std_logic_vector(7 downto 0) 
 	);
@@ -38,7 +39,8 @@ constant ps_jump			: std_logic_vector(2 downto 0) := "011";
 constant ps_duck			: std_logic_vector(2 downto 0) := "100";
 constant ps_shoot			: std_logic_vector(2 downto 0) := "101";
 
-
+constant left_to_right_direction : std_logic := '0';
+constant right_to_left_direction : std_logic := '1';
 
 type ram_array is array(0 to object_Y_size - 1 , 0 to object_X_size - 1) of std_logic_vector(7 downto 0);  
 
@@ -115,7 +117,7 @@ signal drawing_Y : std_logic := '0';
 signal objectEndX : integer;
 signal objectEndY : integer;
 
-signal current_color : std_logic_vector(7 downto 0);
+--signal current_color : std_logic_vector(7 downto 0);
 
 begin
 
@@ -133,22 +135,30 @@ objectEndY	<= object_Y_size + ObjectStartY;
 	bCoord_X 	<= (oCoord_X - ObjectStartX) when ( drawing_X = '1' and  drawing_Y = '1'  ) else 0 ; 
 	bCoord_Y 	<= (oCoord_Y - objectEndY) when ( drawing_X = '1' and  drawing_Y = '1'  ) else 0 ; 
 	
-	with PlayerState select current_color <=
-		X"E0"	when ps_duck,
-		X"0F" when ps_jump,
-		X"07" when ps_shoot,
-		X"FF" when others;
-		
+	
 
 process ( RESETn, CLK)
 
-  		
+  	variable current_color : std_logic_vector(7 downto 0);
    begin
 	if RESETn = '0' then
 	   mVGA_RGB	<=  (others => '0') ; 	
 		drawing_request	<=  '0' ;
 
 	elsif rising_edge(CLK) then
+	
+		-- TODO: add mux that chooses the right bit map according to playing_direction and PlayerState
+		case PlayerState is
+			when ps_duck =>
+				current_color := X"E0";
+			when ps_jump =>
+				current_color := X"0F";
+			when ps_shoot =>
+				current_color := X"07";
+			when others =>
+				current_color := X"FF";
+		end case;
+		
 		mVGA_RGB				<=  current_color;	--get from colors table 
 		drawing_request	<=  drawing_X and drawing_Y ; -- get from mask table if inside rectangle  
 	end if;
