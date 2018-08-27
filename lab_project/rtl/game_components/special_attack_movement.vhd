@@ -14,6 +14,7 @@ port 	(
 		enable			: in std_logic; -- 			enable movement
 		action			: in std_logic_vector(2 downto 0);
 		valid				: in std_logic;
+		direction		: in std_logic; -- 0 left player, 1 right player
 		PlayerPosX		: in integer;
 		PlayerPosY		: in integer;
 		hit				: in std_logic;
@@ -28,13 +29,17 @@ architecture behav of special_attack_movement is
 
 
 constant hands_dist		: integer :=	8;
-constant speed				: integer := 	8;
+constant speed 			: integer := 	8;
 constant player_width	: integer :=	26;
 
 constant	x_upper_frame	: integer :=	638;
 constant	y_upper_frame	: integer :=	400;
 
 constant fireball		: std_logic_vector(2 downto 0) := "101";
+
+constant left_to_right_direction : std_logic := '0';
+constant right_to_left_direction : std_logic := '1';
+
 --constant special_attack_1		: action_t := "110";
 --constant special_attack_2		: action_t := "111";
 
@@ -49,10 +54,17 @@ begin
 
 	variable ObjectStartX_t	: integer range 0 to 640;  --vga screen size 
 	variable ObjectStartY_t	: integer range 0 to 480;
+	
+	variable movement_direction : std_logic;
 		
 		begin
 		if RESETn = '0' then
-			ObjectStartX_t	:= PlayerPosX + player_width + 1;
+			if(direction = left_to_right_direction) then 
+				ObjectStartX_t	:= PlayerPosX + player_width + 1;
+			else 
+				ObjectStartX_t	:= PlayerPosX - player_width + 1;
+			end if;
+			
 			ObjectStartY_t	:= PlayerPosY;
 			draw <= '0';
 			present_state 	:=	idle;
@@ -63,7 +75,14 @@ begin
 				case present_state is
 					when idle =>
 						if (valid ='1' and action = fireball) then
-							ObjectStartX_t	:= PlayerPosX + player_width + 1;
+							movement_direction := direction;
+							
+							if(movement_direction = left_to_right_direction) then 
+								ObjectStartX_t	:= PlayerPosX + player_width + 1;
+							else 
+								ObjectStartX_t	:= PlayerPosX - 1;
+							end if;
+							
 							ObjectStartY_t	:= PlayerPosY;
 							draw <= '1';
 							present_state := ongoing;
@@ -71,11 +90,18 @@ begin
 					
 					when ongoing =>
 						if timer_done = '1' then
-							ObjectStartX_t  := ObjectStartX_t + speed;
-							
-							if ObjectStartX_t >= 638 then
-								draw <= '0';
-								present_state := idle;
+							if(movement_direction = left_to_right_direction) then 
+								ObjectStartX_t  := ObjectStartX_t + speed;
+								if ObjectStartX_t >= 638 then
+									draw <= '0';
+									present_state := idle;
+								end if;
+							else 
+								ObjectStartX_t  := ObjectStartX_t - speed;
+								if ObjectStartX_t <= 1 then
+									draw <= '0';
+									present_state := idle;
+								end if;
 							end if;
 						end if;
 						

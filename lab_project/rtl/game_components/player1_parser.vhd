@@ -60,7 +60,7 @@ begin
 			elsif rising_edge(CLK) then
 				if enable = '1'	then
 					-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-					--change to make = '1'
+					--change to make = '0' for DS10 keys
 					if make = '1' then
 						valid <= '1';
 						case kbd_data is

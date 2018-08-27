@@ -35,9 +35,34 @@ begin
 		
 			player1_hit_by_fireball <= '0';
 			player2_hit_by_fireball <= '0';
+		
 		elsif(rising_edge(CLK)) then 
-			fireballs_hit <= '1' when ((fireball1_drawing_request = '1') and (fireball2_drawing_request = '1')) else '0';
-			players_hit <= '1' when ((player1_drawing_request = '1') and (player2_drawing_request = '1')) else '0';
+		
+			if ((fireball1_drawing_request = '1') and (fireball2_drawing_request = '1')) then
+				fireballs_hit <= '1';
+			else 
+				fireballs_hit <= '0';
+			end if;
 			
-			player1_hit_by_fireball <= 
+			if ((player1_drawing_request = '1') and (player2_drawing_request = '1')) then
+				players_hit <= '1';
+			else 
+				players_hit <= '0';
+			end if;
 			
+			if ((player1_drawing_request = '1') and (fireball2_drawing_request = '1')) then
+				player1_hit_by_fireball <= '1';
+			else 
+				player1_hit_by_fireball <= '0';
+			end if;	
+			
+			if ((player2_drawing_request = '1') and (fireball1_drawing_request = '1')) then 
+				player2_hit_by_fireball <= '1' ;
+			else 
+				player2_hit_by_fireball <= '0';
+			end if;
+			
+			
+		end if;
+	end process;
+end hit_manager_arch;
