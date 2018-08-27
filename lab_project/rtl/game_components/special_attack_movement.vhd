@@ -69,7 +69,7 @@ begin
 			ObjectStartY_t	:= PlayerPosY;
 			draw <= '0';
 			present_state 	:=	idle;
-			hit_occured = '0';
+			hit_occured 	:= '0';
 
 		elsif rising_edge(CLK) then
 			if enable = '1' then
@@ -97,10 +97,10 @@ begin
 					when ongoing =>
 	
 						if timer_done = '1' then
-							if hit_ocuured = '1' then
+							if hit_occured = '1' then
 								draw <= '0';
 								present_state := idle;
-								hit_occured = '0';
+								hit_occured := '0';
 								
 							elsif (movement_direction = left_to_right_direction) then 
 								ObjectStartX_t  := ObjectStartX_t + speed;

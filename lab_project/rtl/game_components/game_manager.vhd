@@ -25,12 +25,12 @@ port 	(
 		game_on 			: out std_logic;
 		------
 		player1_health	: out integer range 0 to 100;
-		player2_health	: out	integer range 0 to 100;
+		player2_health	: out	integer range 0 to 100
 		-------
 		
 		-- A lot of enable/reset signals for different entities
 	);
-end player_logic;
+end game_manager;
 
 architecture behav of game_manager is 
 
@@ -46,8 +46,9 @@ constant ps_punch			: std_logic_vector(2 downto 0) := "111";
 
 type game_state is (idle, ongoing, paused, game_over);
 
+begin
 
-process (RESETn, CLK)
+	process (RESETn, CLK)
 	variable present_state : game_state;
 	variable current_health1 : integer;
 	variable current_health2 : integer;
@@ -95,7 +96,7 @@ process (RESETn, CLK)
 					end case;
 				end if;
 				
-				if (current_health1 <=0) the
+				if (current_health1 <=0) then
 					current_health1 := 0;
 					present_state   := game_over;
 				end if;
@@ -111,8 +112,9 @@ process (RESETn, CLK)
 			
 			when others =>
 				current_health1 := current_health1;
-				current_health2 := current_health2
-
+				current_health2 := current_health2;
+			end case;
+			
 		end if;
 		
 		player1_health <=	current_health1;

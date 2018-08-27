@@ -12,9 +12,10 @@ port 	(
 		enable			: in std_logic; -- 	//enable movement
 		valid				: in std_logic;
 		action			: in std_logic_vector(2 downto 0);
-		initial_direction : in std_logic;
 		--- FOR DEBUG
-		initial_vel : integer;		
+		initial_vel : integer;
+		initial_direction : in std_logic;
+
 		---
 		ObjectStartX	: out integer ;
 		ObjectStartY	: out integer;
