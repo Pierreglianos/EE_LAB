@@ -30,22 +30,20 @@ architecture behav of special_attack_movement is
 
 constant hands_dist		: integer :=	8;
 constant speed 			: integer := 	8;
-constant player_width	: integer :=	26;
+constant player_width	: integer :=	26; -- TODO: remove, take from package
 
-constant	x_upper_frame	: integer :=	638;
-constant	y_upper_frame	: integer :=	400;
+constant	x_upper_frame	: integer :=	638; -- TODO: remove, take from package
+constant	y_upper_frame	: integer :=	400; -- TODO: remove, take from package
 
-constant fireball		: std_logic_vector(2 downto 0) := "101";
+constant fireball		: std_logic_vector(2 downto 0) := "101"; -- TODO: remove, take from package
 
-constant left_to_right_direction : std_logic := '0';
-constant right_to_left_direction : std_logic := '1';
+constant left_to_right_direction : std_logic := '0'; -- TODO: remove, take from package
+constant right_to_left_direction : std_logic := '1'; -- TODO: remove, take from package
 
 --constant special_attack_1		: action_t := "110";
 --constant special_attack_2		: action_t := "111";
 
 type state is (idle, ongoing);
-
-
 
 begin
 

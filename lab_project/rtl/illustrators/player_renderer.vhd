@@ -4,6 +4,8 @@ use IEEE.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 use ieee.std_logic_arith.all;
 
+library lab_project;
+use lab_project.STREET_FIGHTER_PCKG.all;
 
 entity player_renderer is
 port 	(
@@ -23,8 +25,8 @@ end player_renderer;
 
 architecture behav of player_renderer is 
 
-constant object_X_size : integer := 26;
-constant object_Y_size : integer := 26;
+--constant object_X_size : integer := 26;
+--constant object_Y_size : integer := 26;
 --constant R_high		: integer := 7;
 --constant R_low		: integer := 5;
 --constant G_high		: integer := 4;
@@ -39,10 +41,7 @@ constant ps_jump			: std_logic_vector(2 downto 0) := "011";
 constant ps_duck			: std_logic_vector(2 downto 0) := "100";
 constant ps_shoot			: std_logic_vector(2 downto 0) := "101";
 
-constant left_to_right_direction : std_logic := '0';
-constant right_to_left_direction : std_logic := '1';
-
-type ram_array is array(0 to object_Y_size - 1 , 0 to object_X_size - 1) of std_logic_vector(7 downto 0);  
+type ram_array is array(0 to player_length_t - 1 , 0 to player_width_t - 1) of std_logic_vector(7 downto 0);  
 
 -- 8 bit - color definition : "RRRGGGBB"  
 -- constant object_colors: ram_array := ( 
@@ -122,8 +121,8 @@ signal objectEndY : integer;
 begin
 
 -- Calculate object end boundaries
-objectEndX	<= object_X_size + ObjectStartX;
-objectEndY	<= object_Y_size + ObjectStartY;
+objectEndX	<= player_width_t + ObjectStartX;
+objectEndY	<= player_length_t + ObjectStartY;
 
 -- Signals drawing_X[Y] are active when obects coordinates are being crossed
 
