@@ -8,7 +8,6 @@ port (
 		CLK	: in std_logic; --						//	27 MHz
 		RESETn : in std_logic;
 		
-		background_drawing_request : in std_logic;
 		player1_drawing_request : in std_logic;
 		player2_drawing_request : in std_logic;
 		fireball1_drawing_request : in std_logic;	 		

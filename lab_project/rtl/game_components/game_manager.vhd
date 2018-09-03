@@ -3,6 +3,8 @@ use IEEE.STD_LOGIC_1164.all;
 use IEEE.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
+library lab_project;
+use lab_project.STREET_FIGHTER_PCKG.all;
 
 entity game_manager is
 port 	(
@@ -10,8 +12,6 @@ port 	(
 		RESETn			: in std_logic; --
 		timer_done		: in std_logic;
 		
-		valid				: in std_logic;
-		action			: in std_logic_vector(2 downto 0);
 		---
 		
 		player1_hit				: in std_logic;
@@ -33,16 +33,6 @@ port 	(
 end game_manager;
 
 architecture behav of game_manager is 
-
-constant ps_idle			: std_logic_vector(2 downto 0) := "000";
-constant ps_move_left	: std_logic_vector(2 downto 0) := "001";
-constant ps_move_right	: std_logic_vector(2 downto 0) := "010";
-constant ps_jump			: std_logic_vector(2 downto 0) := "011";
-constant ps_duck			: std_logic_vector(2 downto 0) := "100";
-constant ps_shoot			: std_logic_vector(2 downto 0) := "101";
-constant ps_kick			: std_logic_vector(2 downto 0) := "110";
-constant ps_punch			: std_logic_vector(2 downto 0) := "111";
-
 
 type game_state is (idle, ongoing, paused, game_over);
 
@@ -72,9 +62,9 @@ begin
 				
 				if (player1_hit = '1') then
 					case player2_state is
-						when ps_kick =>
+						when player_state_kick =>
 							current_health1 := current_health1 - 10;
-						when ps_punch =>
+						when player_state_punch =>
 							current_health1 := current_health1 - 8;
 						when others =>
 							current_health1 := current_health1;
@@ -87,9 +77,9 @@ begin
 				
 				if (player2_hit = '1') then
 					case player1_state is
-						when ps_kick =>
+						when player_state_kick =>
 							current_health2 := current_health1 - 10;
-						when ps_punch =>
+						when player_state_punch =>
 							current_health2 := current_health1 - 8;
 						when others =>
 							current_health2 := current_health1;

@@ -147,8 +147,6 @@ process ( RESETn, CLK)
 				current_color := X"CC"; --green
 			when player_state_duck =>
 				current_color := X"E0"; -- red
-			when player_state_jump =>
-				current_color := X"0F";
 			when player_state_shoot =>
 				current_color := X"07";
 			when others =>

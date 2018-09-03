@@ -8,6 +8,15 @@ package STREET_FIGHTER_PCKG is
 -- VGA defines------------------------------------------------------
 	constant	x_frame	: integer :=	640;
 	constant	y_frame	: integer :=	480;
+	
+	constant life_bar_outline_RGB	: std_logic_vector(7 downto 0) := X"C7";
+	constant life_bar_filling_RGB	: std_logic_vector(7 downto 0) := X"FF";
+	constant p1_life_bar_x			: integer := 200;
+	constant p2_life_bar_x			: integer := 340;
+	constant life_bar_y				: integer := 80;
+	constant life_bar_size_x		: integer := 102;
+	constant life_bar_size_y		: integer := 22;
+
 --------------------------------------------------------------------
 -- KBD constants----------------------------------------------------
 	constant kbd_left_arrow  	: std_logic_vector(8 downto 0) := "101101011"; -- 0x6B extended
@@ -39,9 +48,10 @@ package STREET_FIGHTER_PCKG is
 	constant player_state_idle			: std_logic_vector(2 downto 0) := "000";
 	constant player_state_move_left	: std_logic_vector(2 downto 0) := "001";
 	constant player_state_move_right	: std_logic_vector(2 downto 0) := "010";
-	constant player_state_jump			: std_logic_vector(2 downto 0) := "011";
 	constant player_state_duck			: std_logic_vector(2 downto 0) := "100";
 	constant player_state_shoot		: std_logic_vector(2 downto 0) := "101";
+	constant player_state_kick			: std_logic_vector(2 downto 0) := "110";
+	constant player_state_punch		: std_logic_vector(2 downto 0) := "111";
 
 	constant player_length_t : integer := 26; -- most likely won't need when we'll start to work with bitmaps
 	constant player_width_t  : integer := 26; -- most likely won't need when we'll start to work with bitmaps

@@ -8,7 +8,8 @@ use ieee.numeric_std.all;
 entity objects_mux is
 port 	(
 		CLK	: in std_logic; --						//	27 MHz
-		
+		RESETn : in std_logic;
+
 		background_drawing_request : in std_logic;
 		background_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- background  input signal 
 		
@@ -24,10 +25,12 @@ port 	(
 		fireball2_drawing_request : in std_logic;	 
 		fireball2_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	,  fireball 2 input signal 
 		
-		m_mVGA_R 	: out std_logic_vector(7 downto 0); --	,  
-		m_mVGA_G 	: out std_logic_vector(7 downto 0); --	, 
-		m_mVGA_B 	: out std_logic_vector(7 downto 0); --	, 
-		RESETn : in std_logic
+		life_bar_drawing_request : in std_logic;	 
+		life_bar_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	,  life bar input signal 
+		
+		m_mVGA_R 	: out std_logic_vector(7 downto 0);  
+		m_mVGA_G 	: out std_logic_vector(7 downto 0); 
+		m_mVGA_B 	: out std_logic_vector(7 downto 0) 
 
 	);
 end objects_mux;
@@ -53,6 +56,8 @@ begin
 			m_mVGA_t <= player2_mVGA_RGB;  
 		elsif (player1_drawing_request = '1' ) then  
 			m_mVGA_t <= player1_mVGA_RGB;
+		elsif (life_bar_drawing_request = '1') then
+			m_mVGA_t <= life_bar_mVGA_RGB ;
 		elsif(background_drawing_request = '1' ) then
 			m_mVGA_t <= background_mVGA_RGB ;
 		else 

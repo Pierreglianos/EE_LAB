@@ -81,7 +81,7 @@ begin
 							end case;
 						
 					-- TODO make sure about this
-					elsif make = '0' or break = '1' then
+					elsif break = '1' then
 						valid <= '0';	
 					end if;
 					

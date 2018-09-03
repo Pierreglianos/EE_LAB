@@ -27,8 +27,7 @@ end player_logic;
 
 architecture behav of player_logic is 
 
---constant special_attack_1		: std_logic_vector(2 downto 0) := "110";
---constant special_attack_2		: std_logic_vector(2 downto 0) := "111";
+
 
 constant step_wid 	: integer := 6;
 constant duck_size	: integer := 10;
@@ -44,7 +43,8 @@ begin
 			variable present_state_out : std_logic_vector(2 downto 0) := player_state_idle;
 			
 			variable player_direction_tmp : std_logic; --changed 
-			variable player_direction : std_logic; -- changed only when timer is done
+			variable player_direction 		: std_logic; -- changed only when timer is done
+			variable jumping 					: std_logic;
 			
 		begin
 			
@@ -56,7 +56,8 @@ begin
 				present_state_out := player_state_idle;
 				
 				player_direction_tmp := initial_direction;
-				player_direction := initial_direction;
+				player_direction 		:= initial_direction;
+				jumping 					:= '0';
 				
 			elsif rising_edge(CLK) then
 
@@ -84,9 +85,9 @@ begin
 								--end if;
 						
 							when player_action_jump =>
-								if (present_state = player_state_idle) then
+								if (jumping = '0') then
+									jumping := '1';
 									jump_t := 0;
-									present_state := player_state_jump;
 								end if;
 							when player_action_duck =>
 								present_state := player_state_duck;
@@ -110,15 +111,17 @@ begin
 					
 					-- make sure about the timer
 					if (timer_done = '1') then
-						case present_state is
-							when player_state_jump =>
+						if jumping = '1' then -- player_state_jump =>
 								jump_t := jump_t + 1;
 								ObjectStartY_t := player_StartY - (initial_vel * jump_t - jump_t * jump_t)/8;
 								if (ObjectStartY_t > player_StartY)  then -- back to the ground
 									ObjectStartY_t := player_StartY;
-									present_state := player_state_idle;
+									jumping := '0';
 									jump_t := 0;
 								end if;
+						end if;
+						case present_state is
+
 							when player_state_move_left =>
 								ObjectStartX_t := ObjectStartX_t - step_wid;
 								if (ObjectStartX_t < 0) then
@@ -154,7 +157,7 @@ begin
 						present_state_out := present_state;
 						player_direction := player_direction_tmp;
 						
-						if((valid = '0') and (present_state /= player_state_jump)) then 
+						if(valid = '0') then 
 							present_state := player_state_idle;
 						end if;	
 						
