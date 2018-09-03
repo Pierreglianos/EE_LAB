@@ -5,6 +5,9 @@ use ieee.numeric_std.all;
 -- Alex Grinshpun March 24 2017 
 -- Dudy Nov 13 2017
 
+library lab_project;
+use lab_project.STREET_FIGHTER_PCKG.all;
+
 
 entity special_attack_movement is
 port 	(
@@ -35,7 +38,7 @@ constant player_width	: integer :=	26; -- TODO: remove, take from package
 constant	x_upper_frame	: integer :=	638; -- TODO: remove, take from package
 constant	y_upper_frame	: integer :=	400; -- TODO: remove, take from package
 
-constant fireball		: std_logic_vector(2 downto 0) := "101"; -- TODO: remove, take from package
+--constant fireball		: std_logic_vector(2 downto 0) := "101"; -- TODO: remove, take from package
 
 constant left_to_right_direction : std_logic := '0'; -- TODO: remove, take from package
 constant right_to_left_direction : std_logic := '1'; -- TODO: remove, take from package
@@ -61,7 +64,7 @@ begin
 			if(direction = left_to_right_direction) then 
 				ObjectStartX_t	:= PlayerPosX + player_width + 1;
 			else 
-				ObjectStartX_t	:= PlayerPosX - player_width + 1;
+				ObjectStartX_t	:= PlayerPosX - 1;
 			end if;
 			
 			ObjectStartY_t	:= PlayerPosY;
@@ -78,7 +81,7 @@ begin
 				
 				case present_state is
 					when idle =>
-						if (valid ='1' and action = fireball) then
+						if (valid ='1' and action = player_action_fireball) then
 							movement_direction := direction;
 							
 							if(movement_direction = left_to_right_direction) then 
@@ -108,7 +111,7 @@ begin
 								end if;
 							else 
 								ObjectStartX_t  := ObjectStartX_t - speed;
-								if ObjectStartX_t <= 1 then
+								if ObjectStartX_t <= 10 then
 									draw <= '0';
 									present_state := idle;
 								end if;

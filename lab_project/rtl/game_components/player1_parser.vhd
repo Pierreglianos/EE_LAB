@@ -26,7 +26,7 @@ port 	(
 		break				: in std_logic;
 		kbd_data			: in std_logic_vector(8 downto 0);
 		valid				: out std_logic;
-		action			: out player_action
+		action			: out std_logic_vector(2 downto 0)
 	);
 end player1_parser;
 
@@ -46,11 +46,11 @@ architecture behav of player1_parser is
 begin
 
 		process ( RESETn,CLK)
-		variable tmp_action : player_action := none;
+		variable tmp_action : std_logic_vector(2 downto 0) := player_action_none;
 
 		begin
 			if RESETn = '0' then
-				tmp_action 	:= none;
+				tmp_action 	:= player_action_none;
 				valid 		<= '0';
 			
 			elsif rising_edge(CLK) then
@@ -61,22 +61,22 @@ begin
 						valid <= '1';
 						case kbd_data is
 							when kbd_left_arrow =>
-								tmp_action := move_left;
+								tmp_action := player_action_move_left;
 							
 							when kbd_right_arrow =>
-								tmp_action := move_right;
+								tmp_action := player_action_move_right;
 							
 							when kbd_up_arrow =>
-								tmp_action := jump;	
+								tmp_action := player_action_jump;	
 							
 							when kbd_down_arrow =>
-								tmp_action := duck;
+								tmp_action := player_action_duck;
 							
 							when kbd_dot =>
-								tmp_action := fireball;
+								tmp_action := player_action_fireball;
 							
 							when others =>
-								tmp_action := none;
+								tmp_action := player_action_none;
 								
 							end case;
 						

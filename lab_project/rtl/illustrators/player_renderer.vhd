@@ -34,13 +34,6 @@ architecture behav of player_renderer is
 --constant B_high		: integer := 1;
 --constant B_low		: integer := 0;
 
-constant ps_idle			: std_logic_vector(2 downto 0) := "000";
-constant ps_move_left	: std_logic_vector(2 downto 0) := "001";
-constant ps_move_right	: std_logic_vector(2 downto 0) := "010";
-constant ps_jump			: std_logic_vector(2 downto 0) := "011";
-constant ps_duck			: std_logic_vector(2 downto 0) := "100";
-constant ps_shoot			: std_logic_vector(2 downto 0) := "101";
-
 type ram_array is array(0 to player_length_t - 1 , 0 to player_width_t - 1) of std_logic_vector(7 downto 0);  
 
 -- 8 bit - color definition : "RRRGGGBB"  
@@ -148,11 +141,15 @@ process ( RESETn, CLK)
 	
 		-- TODO: add mux that chooses the right bit map according to playing_direction and PlayerState
 		case PlayerState is
-			when ps_duck =>
-				current_color := X"E0";
-			when ps_jump =>
+			when player_state_move_left =>
+				current_color := X"66"; -- yellow
+			when player_state_move_right =>
+				current_color := X"CC"; --green
+			when player_state_duck =>
+				current_color := X"E0"; -- red
+			when player_state_jump =>
 				current_color := X"0F";
-			when ps_shoot =>
+			when player_state_shoot =>
 				current_color := X"07";
 			when others =>
 				current_color := X"FF";

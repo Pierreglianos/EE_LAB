@@ -3,6 +3,8 @@ use IEEE.STD_LOGIC_1164.all;
 use IEEE.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
+library lab_project;
+use lab_project.STREET_FIGHTER_PCKG.all;
 
 -- action encode
 -- "000":	none
@@ -30,19 +32,13 @@ end player2_parser;
 
 architecture behav of player2_parser is 
 
-constant A_key	: std_logic_vector(8 downto 0) := "000011100"; -- 0x1C
-constant D_key	: std_logic_vector(8 downto 0) := "000100011"; -- 0x23
-constant W_key	: std_logic_vector(8 downto 0) := "000011101"; -- 0x1D
-constant S_key : std_logic_vector(8 downto 0) := "000011011"; -- 0x1B
-constant V_key	: std_logic_vector(8 downto 0) := "000101010"; -- 0x2A
+--constant none			: std_logic_vector(2 downto 0) := "000";
+--constant move_left	: std_logic_vector(2 downto 0) := "001";
+--constant move_right	: std_logic_vector(2 downto 0) := "010";
+--constant jump			: std_logic_vector(2 downto 0) := "011";
+--constant duck			: std_logic_vector(2 downto 0) := "100";
+--constant fireball		: std_logic_vector(2 downto 0) := "101";
 
-
-constant none			: std_logic_vector(2 downto 0) := "000";
-constant move_left	: std_logic_vector(2 downto 0) := "001";
-constant move_right	: std_logic_vector(2 downto 0) := "010";
-constant jump			: std_logic_vector(2 downto 0) := "011";
-constant duck			: std_logic_vector(2 downto 0) := "100";
-constant fireball		: std_logic_vector(2 downto 0) := "101";
 --constant special_attack_1		: std_logic_vector(2 downto 0) := "110";
 --constant special_attack_2		: std_logic_vector(2 downto 0) := "111";
 
@@ -50,11 +46,11 @@ constant fireball		: std_logic_vector(2 downto 0) := "101";
 begin
 
 		process ( RESETn,CLK)
-		variable tmp_action : std_logic_vector(2 downto 0) := none;
+		variable tmp_action : std_logic_vector(2 downto 0) := player_action_none;
 
 		begin
 			if RESETn = '0' then
-				tmp_action 	:= none;
+				tmp_action 	:= player_action_none;
 				valid 		<= '0';
 			
 			elsif rising_edge(CLK) then
@@ -64,23 +60,23 @@ begin
 					if make = '1' then
 						valid <= '1';
 						case kbd_data is
-							when D_key =>
-								tmp_action := move_left;
+							when kbd_D_key =>
+								tmp_action := player_action_move_right;
 							
-							when A_key =>
-								tmp_action := move_right;
+							when kbd_A_key =>
+								tmp_action := player_action_move_left;
 							
-							when W_key =>
-								tmp_action := jump;	
+							when kbd_W_key =>
+								tmp_action := player_action_jump;	
 							
-							when S_key =>
-								tmp_action := duck;
+							when kbd_S_key =>
+								tmp_action := player_action_duck;
 							
-							when V_key =>
-								tmp_action := fireball;
+							when kbd_V_key =>
+								tmp_action := player_action_fireball;
 							
 							when others =>
-								tmp_action := none;
+								tmp_action := player_action_none;
 								
 							end case;
 						
