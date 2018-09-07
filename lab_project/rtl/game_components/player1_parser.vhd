@@ -52,12 +52,12 @@ architecture behav of player1_parser is
 begin
 
 		process ( RESETn,CLK)
-		--variable tmp_action : std_logic_vector(2 downto 0) := player_action_none;
-			variable move_left_valid_t 	: std_logic := '0';
-			variable move_right_valid_t 	: std_logic := '0';
-			variable move_up_valid_t 		: std_logic := '0';
-			variable move_down_valid_t 	: std_logic := '0';
-			variable shoot_valid_t 			: std_logic := '0';
+			variable tmp_action : std_logic_vector(2 downto 0) := player_action_none;
+			--variable move_left_valid_t 	: std_logic := '0';
+			--variable move_right_valid_t 	: std_logic := '0';
+			--variable move_up_valid_t 		: std_logic := '0';
+			--variable move_down_valid_t 	: std_logic := '0';
+			--variable shoot_valid_t 			: std_logic := '0';
 		begin
 			if RESETn = '0' then
 				tmp_action 	:= player_action_none;

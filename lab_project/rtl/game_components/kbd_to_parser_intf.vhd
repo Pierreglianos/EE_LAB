@@ -7,14 +7,14 @@ use ieee.numeric_std.all;
 library lab_project;
 use lab_project.STREET_FIGHTER_PCKG.all;
 
-entity kbd2parser is
+entity kbd_to_parser_intf is
 	port(
 		CLK				: in std_logic; --						//	50 MHz
 		RESETn			: in std_logic; --
 		
 		make 	: in std_logic;
 		break : in std_logic;
-		data 	: in std_logic_vector(8 downto 0) 
+		data 	: in std_logic_vector(8 downto 0);
 		
 		player1_left_press 	: out std_logic;
 		player1_right_press 	: out std_logic;
@@ -26,12 +26,12 @@ entity kbd2parser is
 		player2_right_press 	: out std_logic;
 		player2_up_press 		: out std_logic;
 		player2_down_press 	: out std_logic;
-		player2_shoot_press 	: out std_logic;
+		player2_shoot_press 	: out std_logic
 		
 	);
-end kbd2parser;
+end kbd_to_parser_intf;
 
-architecture kbd2parser_arch of kbd2parser is 
+architecture kbd_to_parser_intf_arch of kbd_to_parser_intf is 
 	
 	begin 		
 		process(CLK, RESETn)
@@ -129,5 +129,5 @@ architecture kbd2parser_arch of kbd2parser is
 			player2_shoot_press 	<= V_press;
 		end process;
 		
-end kbd2parser_arch;		
+end kbd_to_parser_intf_arch;		
 				

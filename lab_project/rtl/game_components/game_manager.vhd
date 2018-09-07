@@ -86,7 +86,7 @@ begin
 					end case;
 				end if;
 				
-				if (current_health1 <=0) then
+				if (current_health1 <= 0) then
 					current_health1 := 0;
 					present_state   := game_over;
 				end if;
