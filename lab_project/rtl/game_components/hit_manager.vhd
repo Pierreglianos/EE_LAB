@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 
 entity hit_manager is 
 port (
-		CLK	: in std_logic; --						//	27 MHz
+		CLK	: in std_logic;
 		RESETn : in std_logic;
 		
 		player1_drawing_request : in std_logic;

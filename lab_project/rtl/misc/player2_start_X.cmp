@@ -14,9 +14,9 @@
 --agreement for further details.
 
 
-component ere
+component player2_start_X
 	PORT
 	(
-		result		: OUT STD_LOGIC_VECTOR (31 DOWNTO 0)
+		result		: OUT STD_LOGIC_VECTOR (9 DOWNTO 0)
 	);
 end component;

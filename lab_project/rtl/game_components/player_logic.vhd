@@ -14,9 +14,10 @@ port 	(
 		enable			: in std_logic; -- 	//enable movement
 		valid				: in std_logic;
 		action			: in std_logic_vector(2 downto 0);
+		initial_x_pos		: in integer range 0 to 640;
+		opponent_x_pos		: in integer;
 		initial_direction : in std_logic;
-		--- FOR DEBUG
-		initial_vel : in integer;	
+		
 		---
 		ObjectStartX	: out integer ;
 		ObjectStartY	: out integer;
@@ -49,7 +50,7 @@ begin
 		begin
 			
 			if RESETn = '0' then
-				ObjectStartX_t	:= player_StartX;
+				ObjectStartX_t	:= initial_x_pos;
 				ObjectStartY_t	:= player_StartY ;
 				jump_t 			:= 0;
 				present_state 	:= player_state_idle;
@@ -124,14 +125,25 @@ begin
 
 							when player_state_move_left =>
 								ObjectStartX_t := ObjectStartX_t - step_wid;
-								if (ObjectStartX_t < 0) then
+								if (ObjectStartX_t <= opponent_x_pos + player_width_t
+										and ObjectStartX_t > opponent_x_pos) then
+									ObjectStartX_t := opponent_x_pos + player_width_t + 1;
+								
+								elsif (ObjectStartX_t < 0) then
 									ObjectStartX_t := 0;
 								end if;
+							
 							when player_state_move_right =>
 								ObjectStartX_t := ObjectStartX_t + step_wid;
-								if (ObjectStartX_t >= x_frame - player_width_t) then
+								
+								if (ObjectStartX_t + player_width_t >= opponent_x_pos
+										and ObjectStartX_t < opponent_x_pos) then
+									ObjectStartX_t := opponent_x_pos + player_width_t + 1;
+								
+								elsif (ObjectStartX_t >= x_frame - player_width_t) then
 									ObjectStartX_t := x_frame - player_width_t;
 								end if;
+							
 							when others => -- redundant?
 								ObjectStartX_t := ObjectStartX_t;
 								ObjectStartY_t := ObjectStartY_t;

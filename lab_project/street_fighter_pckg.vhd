@@ -11,11 +11,12 @@ package STREET_FIGHTER_PCKG is
 	
 	constant life_bar_outline_RGB	: std_logic_vector(7 downto 0) := X"C7";
 	constant life_bar_filling_RGB	: std_logic_vector(7 downto 0) := X"FF";
-	constant p1_life_bar_x			: integer := 200;
-	constant p2_life_bar_x			: integer := 340;
-	constant life_bar_y				: integer := 80;
-	constant life_bar_size_x		: integer := 102;
+	constant p1_life_bar_x			: integer := 100;
+	constant p2_life_bar_x			: integer := 338;
+	constant life_bar_y				: integer := 50;
+	constant life_bar_size_x		: integer := 152;
 	constant life_bar_size_y		: integer := 22;
+	constant initial_vel				: integer := 38;
 
 --------------------------------------------------------------------
 -- KBD constants----------------------------------------------------
@@ -30,6 +31,9 @@ package STREET_FIGHTER_PCKG is
 	constant kbd_W_key	: std_logic_vector(8 downto 0) := "000011101"; -- 0x1D
 	constant kbd_S_key 	: std_logic_vector(8 downto 0) := "000011011"; -- 0x1B
 	constant kbd_V_key	: std_logic_vector(8 downto 0) := "000101010"; -- 0x2A
+	
+	constant kbd_P_key 	: std_logic_vector(8 downto 0) := "001001101"; -- 0x4D
+	constant kbd_R_key	: std_logic_vector(8 downto 0) := "000101101"; -- 0x2D
 ---------------------------------------------------------------------
 -- Player logic defines --------------------------------------------
 	constant player_action_none			: std_logic_vector(2 downto 0) := "000";
