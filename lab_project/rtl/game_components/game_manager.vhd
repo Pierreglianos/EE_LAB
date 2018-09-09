@@ -42,6 +42,7 @@ begin
 	variable present_state : game_state;
 	variable current_health1 : integer;
 	variable current_health2 : integer;
+
 	
 	begin
 	
