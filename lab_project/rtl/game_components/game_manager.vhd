@@ -27,8 +27,8 @@ port 	(
 		
 		game_on 			: out std_logic;
 		------
-		player1_health	: out integer range 0 to 150;
-		player2_health	: out	integer range 0 to 150;
+		player1_health	: out integer;
+		player2_health	: out	integer;
 		-------
 		game_enable		: out std_logic;
 		is_game_over	: out std_logic;
@@ -72,17 +72,18 @@ begin
 			case present_state is
 			--when idle =>
 			
-			when ongoing =>
-								
+			when ongoing =>	
+			
 				if pause_game = '1' then
 					present_state 	:= paused;
 					game_enable 	<= '0';
 				
 				else
-					if timer_done = '1' then
+				
+				if timer_done = '1' then
 						p1_was_hit := '0';
 						p2_was_hit := '0';
-					end if;
+				end if;		
 				
 					if p1_was_hit = '0' then
 						if (player1_fireball_hit = '1') then
@@ -124,16 +125,17 @@ begin
 						end if;
 					end if;
 					
-					if (current_health1 <=0) then
-						current_health1 := 0;
-						present_state   := game_over;
-					end if;
+				end if;
 				
-					if (current_health2 <= 0) then
-						current_health2 := 0;
-						present_state   := game_over;
-					end if;
-				end if;	
+				if (current_health1 <= 0) then
+					current_health1 := 0;
+					present_state   := game_over;
+				end if;
+				
+				if (current_health2 <= 0) then
+					current_health2 := 0;
+					present_state   := game_over;
+				end if;
 				
 			when paused =>
 				if resume_game = '1' then

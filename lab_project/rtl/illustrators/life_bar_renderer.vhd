@@ -17,8 +17,8 @@ port 	(
 		oCoordX				: in integer;
 		oCoordY				: in integer;
 		
-		health1				: in integer range 0 to 150;
-		health2				: in integer range 0 to 150;
+		health1				: in integer;
+		health2				: in integer;
 
 		drawing_request	: out std_logic ;
 		mVGA_RGB 			: out std_logic_vector(7 downto 0) 
@@ -44,33 +44,40 @@ begin
 				mVGA_RGB 			<= x"FF";
 			
 			elsif rising_edge(CLK) then
-				if enable = '1' and timer_done = '1' then
-					if (oCoordY >= life_bar_y and oCoordY <= life_bar_y + life_bar_size_y) then --vertical coordinates are good
+				if enable = '1' then
+					if (oCoordY > life_bar_y and oCoordY < life_bar_y + life_bar_size_y) then --vertical coordinates are good
 
-						if (oCoordX >= p1_life_bar_x and oCoordX <= p1_life_bar_x + life_bar_size_x) then
-							if draw_outline = '1' then
-								drawing_request <= '1';
-								mVGA_RGB			 <= life_bar_outline_RGB;
-							elsif (oCoordX <= p1_life_bar_x + health1) then
-								drawing_request <= '1';
+						if (oCoordX > p1_life_bar_x and oCoordX < p1_life_bar_x + life_bar_size_x) then
+							drawing_request <= '1';
+							if (oCoordX < p1_life_bar_x + health1) then
 								mVGA_RGB			 <= life_bar_filling_RGB;
+							else 
+								mVGA_RGB			 <= life_bar_outline_RGB;
+
 							end if;
 							
-						elsif (oCoordX >= p2_life_bar_x and oCoordX <= p2_life_bar_x + life_bar_size_x) then
-							if draw_outline = '1' then
-								drawing_request <= '1';
-								mVGA_RGB			 <= life_bar_outline_RGB;	
-							elsif (oCoordX >= p2_life_bar_x + life_bar_size_x - health2) then
-								drawing_request <= '1';
+						elsif (oCoordX > p2_life_bar_x and oCoordX < p2_life_bar_x + life_bar_size_x) then
+							drawing_request <= '1';
+							if (oCoordX > p2_life_bar_x + life_bar_size_x - health2) then
 								mVGA_RGB			 <= life_bar_filling_RGB;
+							else
+								mVGA_RGB			 <= life_bar_outline_RGB;
 							end if;
 						
 						else
-								drawing_request <= '0';
+							drawing_request <= '0';
 						end if;
-						
+					elsif ((((oCoordX >= p1_life_bar_x and oCoordX <= p1_life_bar_x + life_bar_size_x)
+								or (oCoordX >= p2_life_bar_x and oCoordX <= p2_life_bar_x + life_bar_size_x))
+								and (oCoordY = life_bar_y or oCoordY = life_bar_y + life_bar_size_y))
+								or ((oCoordY >= life_bar_y and oCoordY <= life_bar_y + life_bar_size_y)
+								and (oCoordX = p1_life_bar_x or oCoordX = p1_life_bar_x + life_bar_size_x 
+								or oCoordX = p2_life_bar_x or oCoordX = p2_life_bar_x + life_bar_size_x))) then
+						drawing_request <= '1';
+						mVGA_RGB			 <= life_bar_outline_RGB;
 					else
-								drawing_request <= '0';
+						
+						drawing_request <= '0';
 					end if;
 					
 				end if;

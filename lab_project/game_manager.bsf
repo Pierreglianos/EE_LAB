@@ -111,15 +111,15 @@ agreement for further details.
 	(port
 		(pt 256 48)
 		(output)
-		(text "player1_health[7..0]" (rect 0 0 76 12)(font "Arial" ))
-		(text "player1_health[7..0]" (rect 159 43 235 55)(font "Arial" ))
+		(text "player1_health[31..0]" (rect 0 0 80 12)(font "Arial" ))
+		(text "player1_health[31..0]" (rect 155 43 235 55)(font "Arial" ))
 		(line (pt 256 48)(pt 240 48)(line_width 3))
 	)
 	(port
 		(pt 256 64)
 		(output)
-		(text "player2_health[7..0]" (rect 0 0 77 12)(font "Arial" ))
-		(text "player2_health[7..0]" (rect 158 59 235 71)(font "Arial" ))
+		(text "player2_health[31..0]" (rect 0 0 81 12)(font "Arial" ))
+		(text "player2_health[31..0]" (rect 154 59 235 71)(font "Arial" ))
 		(line (pt 256 64)(pt 240 64)(line_width 3))
 	)
 	(port

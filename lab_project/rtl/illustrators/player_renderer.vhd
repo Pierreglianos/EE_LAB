@@ -34,8 +34,8 @@ architecture behav of player_renderer is
 --constant B_high		: integer := 1;
 --constant B_low		: integer := 0;
 
-type ram_array is array(0 to player_length_t - 1 , 0 to player_width_t - 1) of std_logic_vector(7 downto 0);  
-
+--type ram_array is array(0 to player_length_t - 1 , 0 to player_width_t - 1) of std_logic_vector(7 downto 0);  
+--type object_form is array (0 to object_Y_size - 1 , 0 to object_X_size - 1) of std_logic;
 -- 8 bit - color definition : "RRRGGGBB"  
 -- constant object_colors: ram_array := ( 
 -- (x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF", x"FF"),
@@ -67,7 +67,7 @@ type ram_array is array(0 to player_length_t - 1 , 0 to player_width_t - 1) of s
 -- );
 
 -- one bit mask  0 - off 1 dispaly 
---type object_form is array (0 to object_Y_size - 1 , 0 to object_X_size - 1) of std_logic;
+--
 --constant object : object_form := (
 --("00000000000000000000000000"),
 --("00000011111111111111000000"),

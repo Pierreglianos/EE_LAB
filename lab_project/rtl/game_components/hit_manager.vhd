@@ -13,6 +13,8 @@ port (
 		fireball1_drawing_request : in std_logic;	 		
 		fireball2_drawing_request : in std_logic;	 
 		
+		timer_done			: in std_logic;
+		
 		fireballs_hit : out std_logic;
 		players_hit : out std_logic;
 		
@@ -35,7 +37,7 @@ begin
 			player1_hit_by_fireball <= '0';
 			player2_hit_by_fireball <= '0';
 		
-		elsif(rising_edge(CLK)) then 
+		elsif(rising_edge(CLK)) then
 		
 			if ((fireball1_drawing_request = '1') and (fireball2_drawing_request = '1')) then
 				fireballs_hit <= '1';

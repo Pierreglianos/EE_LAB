@@ -69,15 +69,15 @@ agreement for further details.
 	(port
 		(pt 0 128)
 		(input)
-		(text "health1[7..0]" (rect 0 0 46 12)(font "Arial" ))
-		(text "health1[7..0]" (rect 21 123 67 135)(font "Arial" ))
+		(text "health1[31..0]" (rect 0 0 49 12)(font "Arial" ))
+		(text "health1[31..0]" (rect 21 123 70 135)(font "Arial" ))
 		(line (pt 0 128)(pt 16 128)(line_width 3))
 	)
 	(port
 		(pt 0 144)
 		(input)
-		(text "health2[7..0]" (rect 0 0 47 12)(font "Arial" ))
-		(text "health2[7..0]" (rect 21 139 68 151)(font "Arial" ))
+		(text "health2[31..0]" (rect 0 0 50 12)(font "Arial" ))
+		(text "health2[31..0]" (rect 21 139 71 151)(font "Arial" ))
 		(line (pt 0 144)(pt 16 144)(line_width 3))
 	)
 	(port
