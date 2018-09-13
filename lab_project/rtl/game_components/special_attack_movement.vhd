@@ -23,7 +23,8 @@ port 	(
 		hit				: in std_logic;
 		ObjectStartX	: out integer;
 		ObjectStartY	: out integer;
-		draw				: out std_logic
+		draw				: out std_logic;
+		attack_direction		: out std_logic
 		
 	);
 end special_attack_movement;
@@ -33,23 +34,12 @@ architecture behav of special_attack_movement is
 
 constant hands_dist		: integer :=	8;
 constant speed 			: integer := 	8;
-constant player_width	: integer :=	26; -- TODO: remove, take from package
-
-constant	x_upper_frame	: integer :=	638; -- TODO: remove, take from package
-constant	y_upper_frame	: integer :=	400; -- TODO: remove, take from package
-
---constant fireball		: std_logic_vector(2 downto 0) := "101"; -- TODO: remove, take from package
-
-constant left_to_right_direction : std_logic := '0'; -- TODO: remove, take from package
-constant right_to_left_direction : std_logic := '1'; -- TODO: remove, take from package
-
---constant special_attack_1		: action_t := "110";
---constant special_attack_2		: action_t := "111";
+constant player_width	: integer :=	80; -- TODO: remove, take from package
 
 type state is (idle, ongoing);
 
 begin
-
+	
 	process ( RESETn,CLK)
 	variable present_state	: state := idle;
 
@@ -61,8 +51,9 @@ begin
 		
 		begin
 		if RESETn = '0' then
-			if(direction = left_to_right_direction) then 
-				ObjectStartX_t	:= PlayerPosX + player_width + 1;
+			if(direction = player_direction_left_to_right) then 
+				--ObjectStartX_t	:= PlayerPosX + player_width + 1;
+				ObjectStartX_t	:= PlayerPosX + 1;
 			else 
 				ObjectStartX_t	:= PlayerPosX - 1;
 			end if;
@@ -71,6 +62,7 @@ begin
 			draw <= '0';
 			present_state 	:=	idle;
 			hit_occured 	:= '0';
+			attack_direction <= direction;
 
 		elsif rising_edge(CLK) then
 			if enable = '1' then
@@ -84,8 +76,9 @@ begin
 						if (valid ='1' and action = player_action_fireball) then
 							movement_direction := direction;
 							
-							if(movement_direction = left_to_right_direction) then 
-								ObjectStartX_t	:= PlayerPosX + player_width + 1;
+							if(movement_direction = player_direction_left_to_right) then 
+								--ObjectStartX_t	:= PlayerPosX + player_width + 1;
+								ObjectStartX_t	:= PlayerPosX + 1;
 							else 
 								ObjectStartX_t	:= PlayerPosX - 1;
 							end if;
@@ -103,7 +96,7 @@ begin
 								present_state := idle;
 								hit_occured := '0';
 								
-							elsif (movement_direction = left_to_right_direction) then 
+							elsif (movement_direction = player_direction_left_to_right) then 
 								ObjectStartX_t  := ObjectStartX_t + speed;
 								if ObjectStartX_t >= 638 then
 									draw <= '0';
@@ -125,6 +118,7 @@ begin
 		end if;
 		ObjectStartX	<= ObjectStartX_t;		-- copy to outputs 	
 		ObjectStartY	<= ObjectStartY_t + hands_dist;	
+		attack_direction <= movement_direction;
 	end process ;
 
 end behav;

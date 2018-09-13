@@ -16,7 +16,7 @@ package STREET_FIGHTER_PCKG is
 	constant life_bar_y				: integer := 50;
 	constant life_bar_size_x		: integer := 152;
 	constant life_bar_size_y		: integer := 22;
-	constant initial_vel				: integer := 38;
+	constant initial_vel				: integer := 60;
 
 --------------------------------------------------------------------
 -- KBD constants----------------------------------------------------
@@ -25,12 +25,16 @@ package STREET_FIGHTER_PCKG is
 	constant kbd_up_arrow 		: std_logic_vector(8 downto 0) := "101110101"; -- 0x75 extended
 	constant kbd_down_arrow 	: std_logic_vector(8 downto 0) := "101110010"; -- 0x72 extended
 	constant kbd_dot    			: std_logic_vector(8 downto 0) := "001001001"; -- 0x49
+	constant kbd_comma 			: std_logic_vector(8 downto 0) := "001000001"; -- 0x41
+	constant kbd_slash 			: std_logic_vector(8 downto 0) := "001001010"; -- 0x4A
 	
 	constant kbd_A_key	: std_logic_vector(8 downto 0) := "000011100"; -- 0x1C
 	constant kbd_D_key	: std_logic_vector(8 downto 0) := "000100011"; -- 0x23
 	constant kbd_W_key	: std_logic_vector(8 downto 0) := "000011101"; -- 0x1D
 	constant kbd_S_key 	: std_logic_vector(8 downto 0) := "000011011"; -- 0x1B
 	constant kbd_V_key	: std_logic_vector(8 downto 0) := "000101010"; -- 0x2A
+	constant kbd_C_key	: std_logic_vector(8 downto 0) := "000100001"; -- 0x21
+	constant kbd_B_key	: std_logic_vector(8 downto 0) := "000110010"; -- 0x32
 	
 	constant kbd_P_key 	: std_logic_vector(8 downto 0) := "001001101"; -- 0x4D
 	constant kbd_R_key	: std_logic_vector(8 downto 0) := "000101101"; -- 0x2D
@@ -42,6 +46,8 @@ package STREET_FIGHTER_PCKG is
 	constant player_action_jump			: std_logic_vector(2 downto 0) := "011";
 	constant player_action_duck			: std_logic_vector(2 downto 0) := "100";
 	constant player_action_fireball		: std_logic_vector(2 downto 0) := "101";
+	constant player_action_kick			: std_logic_vector(2 downto 0) := "110";
+	constant player_action_punch			: std_logic_vector(2 downto 0) := "111";
 
 	constant player_direction_left_to_right : std_logic := '0';
 	constant player_direction_right_to_left : std_logic := '1';
@@ -57,8 +63,8 @@ package STREET_FIGHTER_PCKG is
 	constant player_state_kick			: std_logic_vector(2 downto 0) := "110";
 	constant player_state_punch		: std_logic_vector(2 downto 0) := "111";
 
-	constant player_length_t : integer := 26; -- most likely won't need when we'll start to work with bitmaps
-	constant player_width_t  : integer := 26; -- most likely won't need when we'll start to work with bitmaps
+	constant player_length_t : integer := 100; -- most likely won't need when we'll start to work with bitmaps
+	constant player_width_t  : integer := 40; -- most likely won't need when we'll start to work with bitmaps
 	
 	constant player_StartX : integer := player_width_t + 20;   -- starting point
 	constant player_StartY : integer := y_frame - player_length_t;	

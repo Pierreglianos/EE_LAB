@@ -31,14 +31,11 @@ port 	(
 		player_up_press 		: in std_logic;
 		player_down_press 	: in std_logic;
 		player_shoot_press 	: in std_logic;
+		player_kick_press		: in std_logic;
+		player_punch_press	: in std_logic;		
 		
 		valid				: out std_logic;
 		action			: out std_logic_vector(2 downto 0)
-		--move_left_valid : out std_logic;
-		--move_right_valid : out std_logic;
-		--move_up_valid : out std_logic;
-		--move_down_valid : out std_logic;
-		--shoot_valid : out std_logic
 		
 	);
 end player1_parser;
@@ -53,11 +50,6 @@ begin
 
 		process ( RESETn,CLK)
 			variable tmp_action : std_logic_vector(2 downto 0) := player_action_none;
-			--variable move_left_valid_t 	: std_logic := '0';
-			--variable move_right_valid_t 	: std_logic := '0';
-			--variable move_up_valid_t 		: std_logic := '0';
-			--variable move_down_valid_t 	: std_logic := '0';
-			--variable shoot_valid_t 			: std_logic := '0';
 		begin
 			if RESETn = '0' then
 				tmp_action 	:= player_action_none;
@@ -110,6 +102,12 @@ begin
 					elsif(player_shoot_press = '1') then	
 						valid <= '1';
 						tmp_action := player_action_fireball;
+					elsif(player_kick_press = '1') then 
+						valid <= '1';
+						tmp_action := player_action_kick;
+					elsif(player_punch_press = '1') then 
+						valid <= '1';
+						tmp_action := player_action_punch;
 					else	
 						valid <= '0';
 						tmp_action := player_action_none;

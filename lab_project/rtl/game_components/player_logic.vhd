@@ -17,12 +17,14 @@ port 	(
 		initial_x_pos		: in integer range 0 to 640;
 		opponent_x_pos		: in integer;
 		initial_direction : in std_logic;
-		
+		player_health 		: in integer;
+		is_game_over		: in std_logic;
 		---
 		ObjectStartX	: out integer ;
 		ObjectStartY	: out integer;
 		PlayerState		: out std_logic_vector(2 downto 0);
-		movement_direction : out std_logic
+		movement_direction : out std_logic;
+		player_won 				: out std_logic -- 0 - dead, 1 - won
 	);
 end player_logic;
 
@@ -65,26 +67,14 @@ begin
 				if enable = '1' then
 					if valid = '1' then
 						case action is
-						-- TODO: maybe move the following code to 
-						-- if (timer_done = '1')
 							when player_action_move_left =>
 								present_state := player_state_move_left;
 								player_direction_tmp  := player_direction_right_to_left;
-								
-								--ObjectStartX_t := ObjectStartX_t - step_wid;
-								--if ObjectStartX_t < 0 then
-								--	ObjectStartX_t := 0;
-								--end if;
 							
 							when player_action_move_right =>
 								present_state := player_state_move_right;
 								player_direction_tmp  := player_direction_left_to_right;
 								
-								--ObjectStartX_t := ObjectStartX_t + step_wid;
-								--if ObjectStartX_t > x_frame then
-								--	ObjectStartX_t := x_frame;
-								--end if;
-						
 							when player_action_jump =>
 								if (jumping = '0') then
 									jumping := '1';
@@ -92,16 +82,13 @@ begin
 								end if;
 							when player_action_duck =>
 								present_state := player_state_duck;
-								
-								--ObjectStartX_t := ObjectStartX_t;
-								--ObjectStartY_t := ObjectStartY_t;
 							
 							when player_action_fireball =>
 								present_state := player_state_shoot;
-								
-								--ObjectStartX_t := ObjectStartX_t;
-								--ObjectStartY_t := ObjectStartY_t;
-
+							when player_action_kick =>
+								present_state := player_state_kick;
+							when player_action_punch =>
+								present_state := player_state_punch;
 							when others =>
 								present_state := player_state_idle;
 								--ObjectStartX_t := ObjectStartX_t;
@@ -181,6 +168,11 @@ begin
 			ObjectStartY	<= ObjectStartY_t;
 			PlayerState		<= present_state_out; -- TODO: change only when timer is done?
 			movement_direction <= player_direction;
+			if((is_game_over = '1') and (player_health > 0)) then
+				player_won <= '1';
+			else
+				player_won <= '0';
+			end if;
 		end process ;
 
 end behav;

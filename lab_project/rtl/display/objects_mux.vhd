@@ -51,7 +51,7 @@ begin
 		if (fireball2_drawing_request = '1' ) then  
 			m_mVGA_t <= fireball2_mVGA_RGB;  
 		elsif (fireball1_drawing_request = '1' ) then  
-			m_mVGA_t <= fireball2_mVGA_RGB;  
+			m_mVGA_t <= fireball1_mVGA_RGB;  
 		elsif (player2_drawing_request = '1' ) then  
 			m_mVGA_t <= player2_mVGA_RGB;  
 		elsif (player1_drawing_request = '1' ) then  

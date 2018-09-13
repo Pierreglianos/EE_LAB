@@ -130,11 +130,13 @@ begin
 				if (current_health1 <= 0) then
 					current_health1 := 0;
 					present_state   := game_over;
+					is_game_over <= '1';
 				end if;
 				
 				if (current_health2 <= 0) then
 					current_health2 := 0;
 					present_state   := game_over;
+					is_game_over <= '1';
 				end if;
 				
 			when paused =>
