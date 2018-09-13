@@ -14,8 +14,12 @@ port 	(
 		
 		---
 		
+		down_arrow		: in std_logic;
+		up_arrow			: in std_logic;
 		pause_game		: in std_logic;
-		resume_game		: in std_logic;
+		r_key				: in std_logic;
+		select_item		: in std_logic;
+		
 		
 		player1_hit				: in std_logic;
 		player1_fireball_hit	: in std_logic;
@@ -32,7 +36,20 @@ port 	(
 		-------
 		game_enable		: out std_logic;
 		is_game_over	: out std_logic;
-		reset_gameN		: out std_logic
+		game_resetN		: out std_logic;
+		-------
+		p1_figure		: out std_logic_vector(1 downto 0);
+		p2_figure		: out std_logic_vector(1 downto 0);
+		arena				: out std_logic_vector(1 downto 0);
+		-------
+		
+		background_mux	: out std_logic_vector(2 downto 0);
+		selector_pos	: out integer;
+		
+		backgroud_sel	: out std_logic
+		
+		
+		
 		
 		-- A lot of enable/reset signals for different entities
 	);
@@ -40,7 +57,10 @@ end game_manager;
 
 architecture behav of game_manager is 
 
-type game_state is (idle, ongoing, paused, game_over);
+type game_state is (main_menu, game_config, show_ctrls, options, ongoing, paused, game_over);
+
+constant min_selection : integer := 1;
+constant max_selection : integer := 3;
 
 begin
 
@@ -50,27 +70,90 @@ begin
 	variable current_health2	: integer;
 	variable p1_was_hit			: std_logic;
 	variable p2_was_hit			: std_logic;
+	variable selector				: integer;
+	variable	ctrl_renderer_en	: std_logic;
+	variable reset_game			: std_logic;		
+
 
 	
 	begin
 		
-		reset_gameN		<= '1';
 
 		if (RESETn = '0') then
 			current_health1 := 150;
 			current_health2 := 150;
-			-- TODO init to idle
-			present_state 	:= ongoing;
-			game_enable 	<= '0';
-			is_game_over 	<= '0';
-			reset_gameN		<= '0';
 			p1_was_hit		:= '0';
 			p2_was_hit		:= '0';
+			selector			:= 1;
+			reset_game := '1';
+			-- TODO init to main_menu
+			present_state 	:= main_menu;
+			
+			game_enable 	<= '0';
+			is_game_over 	<= '0';
+			game_resetN		<= '0';
+			p1_figure		<= "00";
+			p2_figure		<= "00";
+			arena				<= "00";
+			
+			background_mux	<= "001";
+			selector_pos	<= 1;
 			
 		elsif (rising_edge(CLK)) then
+			reset_game := '1';
 			
 			case present_state is
-			--when idle =>
+			when main_menu =>
+				background_mux	<= "001";
+				
+				if down_arrow = '1' then
+					selector := selector + 1;
+					if selector > max_selection then
+						selector := max_selection;
+					end if;
+				end if;
+				
+				if up_arrow = '1' then
+					selector := selector - 1;
+					if selector < min_selection then
+						selector := min_selection;
+					end if;
+				end if;
+				
+				if select_item = '1' then
+					case selector is
+					when 1 =>
+						-- TODO change to game config and move this logic to there
+						present_state	:= ongoing;
+						reset_game		:= '0';
+						selector 		:= 0;
+						game_enable		<= '1';
+						background_mux	<= "010";
+						
+					when 2 =>
+						present_state 	:= show_ctrls;
+						selector			:= 0;
+						
+					when 3 =>
+						present_state	:= options;
+						selector			:= 1;
+					
+					when others =>
+						null;
+					end case;
+				end if;
+				
+			when show_ctrls =>
+				if r_key = '1' then
+					present_state 		:= main_menu;
+					selector				:= 2;
+				end if;
+				
+			when options =>
+				if r_key = '1' then
+					present_state	:= main_menu;
+					selector 		:= 3;
+				end if;
 			
 			when ongoing =>	
 			
@@ -80,10 +163,10 @@ begin
 				
 				else
 				
-				if timer_done = '1' then
-						p1_was_hit := '0';
-						p2_was_hit := '0';
-				end if;		
+					if timer_done = '1' then
+							p1_was_hit := '0';
+							p2_was_hit := '0';
+					end if;		
 				
 					if p1_was_hit = '0' then
 						if (player1_fireball_hit = '1') then
@@ -140,7 +223,7 @@ begin
 				end if;
 				
 			when paused =>
-				if resume_game = '1' then
+				if r_key = '1' then
 					present_state 	:= ongoing;
 					game_enable		<= '1';
 				end if;
@@ -156,6 +239,7 @@ begin
 		
 		player1_health <=	current_health1;
 		player2_health <=	current_health2;
+		game_resetN		<= reset_game;
 	end process;
 
 end behav;

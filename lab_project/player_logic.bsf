@@ -83,9 +83,16 @@ agreement for further details.
 	(port
 		(pt 0 160)
 		(input)
+		(text "opponent_y_pos[31..0]" (rect 0 0 90 12)(font "Arial" ))
+		(text "opponent_y_pos[31..0]" (rect 21 155 111 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
 		(text "initial_direction" (rect 0 0 54 12)(font "Arial" ))
-		(text "initial_direction" (rect 21 155 75 167)(font "Arial" ))
-		(line (pt 0 160)(pt 16 160)(line_width 1))
+		(text "initial_direction" (rect 21 171 75 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 1))
 	)
 	(port
 		(pt 272 32)

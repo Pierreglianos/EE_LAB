@@ -8,14 +8,15 @@ use lab_project.STREET_FIGHTER_PCKG.all;
 
 entity player_logic is
 port 	(
-		CLK				: in std_logic; --						//	50 MHz
-		RESETn			: in std_logic; --
+		CLK				: in std_logic;
+		RESETn			: in std_logic;
 		timer_done		: in std_logic;
-		enable			: in std_logic; -- 	//enable movement
+		enable			: in std_logic;
 		valid				: in std_logic;
 		action			: in std_logic_vector(2 downto 0);
 		initial_x_pos		: in integer range 0 to 640;
 		opponent_x_pos		: in integer;
+		opponent_y_pos		: in integer;
 		initial_direction : in std_logic;
 		player_health 		: in integer;
 		is_game_over		: in std_logic;
@@ -74,7 +75,7 @@ begin
 							when player_action_move_right =>
 								present_state := player_state_move_right;
 								player_direction_tmp  := player_direction_left_to_right;
-								
+							
 							when player_action_jump =>
 								if (jumping = '0') then
 									jumping := '1';
@@ -91,15 +92,13 @@ begin
 								present_state := player_state_punch;
 							when others =>
 								present_state := player_state_idle;
-								--ObjectStartX_t := ObjectStartX_t;
-								--ObjectStartY_t := ObjectStartY_t;
 							end case;
 					end if; -- valid = '1'
 					
 					
 					-- make sure about the timer
 					if (timer_done = '1') then
-						if jumping = '1' then -- player_state_jump =>
+						if jumping = '1' then
 								jump_t := jump_t + 1;
 								ObjectStartY_t := player_StartY - (initial_vel * jump_t - jump_t * jump_t)/8;
 								if (ObjectStartY_t > player_StartY)  then -- back to the ground
@@ -124,35 +123,19 @@ begin
 								ObjectStartX_t := ObjectStartX_t + step_wid;
 								
 								if (ObjectStartX_t + player_width_t >= opponent_x_pos
-										and ObjectStartX_t < opponent_x_pos) then
+										and ObjectStartX_t < opponent_x_pos 
+										and ObjectStartY_t + player_length_t > opponent_y_pos
+										and ObjectStartY_t < opponent_x_pos) then
 									ObjectStartX_t := opponent_x_pos + player_width_t + 1;
 								
 								elsif (ObjectStartX_t >= x_frame - player_width_t) then
 									ObjectStartX_t := x_frame - player_width_t;
 								end if;
 							
-							when others => -- redundant?
-								ObjectStartX_t := ObjectStartX_t;
-								ObjectStartY_t := ObjectStartY_t;
-							end case;
+							when others =>
+								null;
+						end case;
 								
-						--when others =>
-						--	present_state_out := present_state;
-						--end case;
-						--player_direction := player_direction_tmp;
-						
-						----------------------------------------------------------
-						
-						--if(present_state = player_state_jump) then 
-						--	jump_t := jump_t + 1;
-						--	ObjectStartY_t := player_StartY - (initial_vel * jump_t - jump_t * jump_t)/8;
-						--	if (ObjectStartY_t > player_StartY)  then -- back to the ground
-						--		ObjectStartY_t := player_StartY;
-						--		present_state := player_state_idle;
-						--		jump_t := 0;
-						--	end if;
-						--end if;
-						
 						present_state_out := present_state;
 						player_direction := player_direction_tmp;
 						
