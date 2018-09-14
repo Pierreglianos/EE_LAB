@@ -3,6 +3,8 @@ use IEEE.STD_LOGIC_1164.all;
 use IEEE.std_logic_unsigned.all;
 use ieee.numeric_std.all;
 
+package PLAYER_RENDERER_PCKG is
+
 constant PinkKick_X_size : integer := 44;
 constant PinkKick_Y_size : integer := 48;
 type PinkKick_color_array is array(0 to PinkKick_Y_size - 1 , 0 to PinkKick_X_size - 1) of std_logic_vector(7 downto 0);
@@ -835,3 +837,5 @@ constant PinkShoot_bmp: PinkShoot_bmp_array := (
 ("011111110000000000000000001110111111000000000000000000"),
 ("001111110000000000000000000000000000000000000000000000")
 );
+
+end PLAYER_RENDERER_PCKG;
