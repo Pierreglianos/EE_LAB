@@ -6,7 +6,7 @@ use ieee.std_logic_arith.all;
 
 library lab_project;
 use lab_project.STREET_FIGHTER_PCKG.all;
-use lab_project.PLAYER_RENDERER_PCKG.all;
+use lab_project.player_renderer_package.all;
 
 
 entity player_renderer is
