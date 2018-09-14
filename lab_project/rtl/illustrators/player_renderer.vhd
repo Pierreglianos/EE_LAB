@@ -29,7 +29,7 @@ port 	(
 	);
 end player_renderer;
 
-architecture behav of player_renderer is 
+architecture behav of player_renderer is
 
 begin
 process ( RESETn, CLK)
@@ -55,38 +55,42 @@ process ( RESETn, CLK)
 
 	elsif rising_edge(CLK) then
 	
-		if(is_game_over = '1' and player_won = '1') then 
-			objectEndX	:= 	ObjectStartX + PinkWon_X_size;
-		elsif(is_game_over = '1' ) then 
-			objectEndX	:= 	ObjectStartX + PinkDead_X_size;
-		elsif(PlayerState = player_state_idle or PlayerState = player_state_move_left or PlayerState = player_state_move_right) then 
-				objectEndX	:= 	ObjectStartX + PinkIdle_X_size;
-		elsif(PlayerState = player_state_kick) then
-				objectEndX := ObjectStartX + PinkKick_X_size;
-		elsif(PlayerState = player_state_duck) then 
-				objectEndX := ObjectStartX + PinkDucking_X_size;
-		elsif(PlayerState = player_state_punch) then 
-				objectEndX := ObjectStartX + PinkPunch_X_size;	
-		else -- PlayerState = player_state_shoot
-				objectEndX := ObjectStartX + PinkShoot_X_size;
-		end if;
+--		if(is_game_over = '1' and player_won = '1') then 
+--			objectEndX	:= 	ObjectStartX + PinkWon_X_size;
+--		elsif(is_game_over = '1' ) then 
+--			objectEndX	:= 	ObjectStartX + PinkDead_X_size;
+--		elsif(PlayerState = player_state_idle or PlayerState = player_state_move_left or PlayerState = player_state_move_right) then 
+--				objectEndX	:= 	ObjectStartX + PinkIdle_X_size;
+--		elsif(PlayerState = player_state_kick) then
+--				objectEndX := ObjectStartX + PinkKick_X_size;
+--		elsif(PlayerState = player_state_duck) then 
+--				objectEndX := ObjectStartX + PinkDucking_X_size;
+--		elsif(PlayerState = player_state_punch) then 
+--				objectEndX := ObjectStartX + PinkPunch_X_size;	
+--		else -- PlayerState = player_state_shoot
+--				objectEndX := ObjectStartX + PinkShoot_X_size;
+--		end if;
+--		
+--		if(is_game_over = '1' and player_won = '1') then 
+--			objectEndY	:= 	ObjectStartY + PinkWon_Y_size;
+--		elsif(is_game_over = '1') then 
+--			objectEndY	:= 	ObjectStartY + PinkDead_Y_size;
+--		elsif(PlayerState = player_state_idle or PlayerState = player_state_move_left or PlayerState = player_state_move_right) then 
+--				objectEndY	:= 	ObjectStartY + PinkIdle_Y_size;
+--		elsif(PlayerState = player_state_kick) then
+--				objectEndY := ObjectStartY + PinkKick_Y_size;
+--		elsif(PlayerState = player_state_duck) then 
+--				objectEndY := ObjectStartY + PinkDucking_Y_size;
+--		elsif(PlayerState = player_state_punch) then 
+--				objectEndY := ObjectStartY + PinkPunch_Y_size;	
+--		else -- PlayerState = player_state_shoot
+--				objectEndY := ObjectStartY + PinkShoot_Y_size;
+--		end if;
 		
-		if(is_game_over = '1' and player_won = '1') then 
-			objectEndY	:= 	ObjectStartY + PinkWon_Y_size;
-		elsif(is_game_over = '1') then 
-			objectEndY	:= 	ObjectStartY + PinkDead_Y_size;
-		elsif(PlayerState = player_state_idle or PlayerState = player_state_move_left or PlayerState = player_state_move_right) then 
-				objectEndY	:= 	ObjectStartY + PinkIdle_Y_size;
-		elsif(PlayerState = player_state_kick) then
-				objectEndY := ObjectStartY + PinkKick_Y_size;
-		elsif(PlayerState = player_state_duck) then 
-				objectEndY := ObjectStartY + PinkDucking_Y_size;
-		elsif(PlayerState = player_state_punch) then 
-				objectEndY := ObjectStartY + PinkPunch_Y_size;	
-		else -- PlayerState = player_state_shoot
-				objectEndY := ObjectStartY + PinkShoot_Y_size;
-		end if;
-	
+		objectEndX	:= 	ObjectStartX + player_width_t;
+		objectEndY	:= 	ObjectStartY + player_length_t;
+
+
 		if((oCoord_X  >= ObjectStartX) and  (oCoord_X < objectEndX)) then
 			drawing_X	:= '1';
 		else 
@@ -113,38 +117,38 @@ process ( RESETn, CLK)
 			bCoord_Y 	:= 0;
 		end if;
 		
-		if(is_game_over = '1' and player_won = '1') then 
-			current_color := PinkWon_colors(bCoord_Y , bCoord_X);
-			pixel_valid := PinkWon_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
-		elsif(is_game_over = '1' ) then 
-			current_color := PinkDead_colors(bCoord_Y , bCoord_X);
-			pixel_valid := PinkDead_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
-		else
+--		if(is_game_over = '1' and player_won = '1') then 
+--			current_color := PinkWon_colors(bCoord_Y , bCoord_X);
+--			pixel_valid := PinkWon_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
+--		elsif(is_game_over = '1' ) then 
+--			current_color := PinkDead_colors(bCoord_Y , bCoord_X);
+--			pixel_valid := PinkDead_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
+--		else
 			case PlayerState is
 				when  player_state_idle | player_state_move_left | player_state_move_right =>
-					--current_color := X"66"; -- yellow
-					current_color := PinkIdle_colors(bCoord_Y , bCoord_X);
-					pixel_valid := PinkIdle_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
+					current_color := X"66"; -- yellow
+					--current_color := PinkIdle_colors(bCoord_Y , bCoord_X);
+					--pixel_valid := PinkIdle_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
 				when player_state_duck =>
-					--current_color := X"E0"; -- red
-					current_color := PinkDucking_colors(bCoord_Y , bCoord_X);
-					pixel_valid := PinkDucking_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
+					current_color := X"E0"; -- red
+					--current_color := PinkDucking_colors(bCoord_Y , bCoord_X);
+					--pixel_valid := PinkDucking_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
 				when player_state_shoot =>
-					--current_color := X"07";
+					current_color := X"07";
 					--shoot_colors
-					current_color := PinkShoot_colors(bCoord_Y , bCoord_X);
-					pixel_valid := PinkShoot_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
-				when player_state_punch =>
-					current_color := PinkPunch_colors(bCoord_Y , bCoord_X);
-					pixel_valid := PinkPunch_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
-				when player_state_kick =>
-					current_color := PinkKick_colors(bCoord_Y , bCoord_X);
-					pixel_valid := PinkKick_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
+					--current_color := PinkShoot_colors(bCoord_Y , bCoord_X);
+				--	pixel_valid := PinkShoot_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
+				--when player_state_punch =>
+				--	current_color := PinkPunch_colors(bCoord_Y , bCoord_X);
+				--	pixel_valid := PinkPunch_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
+				--when player_state_kick =>
+				--	current_color := PinkKick_colors(bCoord_Y , bCoord_X);
+				--	pixel_valid := PinkKick_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
 				when others =>
 					current_color := X"FF";
 					pixel_valid := '0';
 			end case;
-		end if;
+--		end if;
 			
 		mVGA_RGB				<=  current_color;	--get from colors table 
 		drawing_request	<=  pixel_valid; -- get from mask table if inside rectangle  
