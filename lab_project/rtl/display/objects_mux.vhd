@@ -10,8 +10,11 @@ port 	(
 		CLK	: in std_logic; --						//	27 MHz
 		RESETn : in std_logic;
 
-		background_drawing_request : in std_logic;
-		background_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- background  input signal 
+		background_selector		: in std_logic_vector(2 downto 0);
+		opening_menu_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- background  input signal
+		main_menu_mVGA_RGB 		: in std_logic_vector(7 downto 0);
+		arena_mVGA_RGB		 		: in std_logic_vector(7 downto 0);
+		
 		
 		player1_drawing_request : in std_logic;
 		player1_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, player 1 input signal 
@@ -58,10 +61,17 @@ begin
 			m_mVGA_t <= player1_mVGA_RGB;
 		elsif (life_bar_drawing_request = '1') then
 			m_mVGA_t <= life_bar_mVGA_RGB ;
-		elsif(background_drawing_request = '1' ) then
-			m_mVGA_t <= background_mVGA_RGB ;
-		else 
-			m_mVGA_t	<=  (others => '0') ; 
+		else
+			case background_selector is
+			when "001" =>
+				m_mVGA_t <= opening_menu_mVGA_RGB ;
+			when "010" =>
+				m_mVGA_t <= main_menu_mVGA_RGB ;
+			when "011" =>
+				m_mVGA_t <= arena_mVGA_RGB ;
+			when others =>
+				m_mVGA_t <= (others => '0');
+			end case;
 		end if; 
 	end if ; 
 

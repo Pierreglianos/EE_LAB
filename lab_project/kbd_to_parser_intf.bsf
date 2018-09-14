@@ -21,9 +21,9 @@ agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 240 256)
+	(rect 16 16 240 320)
 	(text "kbd_to_parser_intf" (rect 5 0 81 12)(font "Arial" ))
-	(text "inst" (rect 8 224 20 236)(font "Arial" ))
+	(text "inst" (rect 8 288 20 300)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -143,7 +143,35 @@ agreement for further details.
 		(text "resume_press" (rect 144 203 203 215)(font "Arial" ))
 		(line (pt 224 208)(pt 208 208)(line_width 1))
 	)
+	(port
+		(pt 224 224)
+		(output)
+		(text "player1_kick_press" (rect 0 0 77 12)(font "Arial" ))
+		(text "player1_kick_press" (rect 126 219 203 231)(font "Arial" ))
+		(line (pt 224 224)(pt 208 224)(line_width 1))
+	)
+	(port
+		(pt 224 240)
+		(output)
+		(text "player1_punch_press" (rect 0 0 86 12)(font "Arial" ))
+		(text "player1_punch_press" (rect 117 235 203 247)(font "Arial" ))
+		(line (pt 224 240)(pt 208 240)(line_width 1))
+	)
+	(port
+		(pt 224 256)
+		(output)
+		(text "player2_kick_press" (rect 0 0 79 12)(font "Arial" ))
+		(text "player2_kick_press" (rect 124 251 203 263)(font "Arial" ))
+		(line (pt 224 256)(pt 208 256)(line_width 1))
+	)
+	(port
+		(pt 224 272)
+		(output)
+		(text "player2_punch_press" (rect 0 0 87 12)(font "Arial" ))
+		(text "player2_punch_press" (rect 116 267 203 279)(font "Arial" ))
+		(line (pt 224 272)(pt 208 272)(line_width 1))
+	)
 	(drawing
-		(rectangle (rect 16 16 208 224)(line_width 1))
+		(rectangle (rect 16 16 208 288)(line_width 1))
 	)
 )

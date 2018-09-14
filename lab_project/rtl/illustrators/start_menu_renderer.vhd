@@ -38,31 +38,33 @@ begin
 			counter:= counter + 1;
 		end if;
 		
-		case counter is
-			when 0 =>
-				mVGA_RGB <= frame1_colors(oCoordY, oCoordX);
-		
-			when 1 =>
-				mVGA_RGB <= frame2_colors(oCoordY, oCoordX);
-				
-			when 2 =>
-				mVGA_RGB <= frame3_colors(oCoordY, oCoordX);
-			
-			when 3 =>
-				mVGA_RGB <= frame4_colors(oCoordY, oCoordX);
-			
-			when 4 =>
-				mVGA_RGB <= frame5_colors(oCoordY, oCoordX);
-			
-			when 5 =>
-				mVGA_RGB <= frame6_colors(oCoordY, oCoordX);
-				
-			when 6 =>
-				mVGA_RGB <= frame7_colors(oCoordY, oCoordX);
-				
-			when 7 =>
-				mVGA_RGB <= frame8_colors(oCoordY, oCoordX);
-		end case;
+		mVGA_RGB <= frame1_colors(oCoordY, oCoordX);
+
+--		case counter is
+--			when 0 =>
+--				mVGA_RGB <= frame1_colors(oCoordY, oCoordX);
+--		
+--			when 1 =>
+--				mVGA_RGB <= frame2_colors(oCoordY, oCoordX);
+--				
+--			when 2 =>
+--				mVGA_RGB <= frame3_colors(oCoordY, oCoordX);
+--			
+--			when 3 =>
+--				mVGA_RGB <= frame4_colors(oCoordY, oCoordX);
+--			
+--			when 4 =>
+--				mVGA_RGB <= frame5_colors(oCoordY, oCoordX);
+--			
+--			when 5 =>
+--				mVGA_RGB <= frame6_colors(oCoordY, oCoordX);
+--				
+--			when 6 =>
+--				mVGA_RGB <= frame7_colors(oCoordY, oCoordX);
+--				
+--			when 7 =>
+--				mVGA_RGB <= frame8_colors(oCoordY, oCoordX);
+--		end case;
 		
 	end if;
 

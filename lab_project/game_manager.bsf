@@ -199,13 +199,6 @@ agreement for further details.
 		(text "selector_pos[31..0]" (rect 169 187 243 199)(font "Arial" ))
 		(line (pt 264 192)(pt 248 192)(line_width 3))
 	)
-	(port
-		(pt 264 208)
-		(output)
-		(text "backgroud_sel" (rect 0 0 57 12)(font "Arial" ))
-		(text "backgroud_sel" (rect 186 203 243 215)(font "Arial" ))
-		(line (pt 264 208)(pt 248 208)(line_width 1))
-	)
 	(drawing
 		(rectangle (rect 16 16 248 256)(line_width 1))
 	)

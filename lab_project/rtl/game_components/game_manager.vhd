@@ -44,11 +44,7 @@ port 	(
 		-------
 		
 		background_mux	: out std_logic_vector(2 downto 0);
-		selector_pos	: out integer;
-		
-		backgroud_sel	: out std_logic
-		
-		
+		selector_pos	: out integer
 		
 		
 		-- A lot of enable/reset signals for different entities
@@ -57,7 +53,7 @@ end game_manager;
 
 architecture behav of game_manager is 
 
-type game_state is (main_menu, game_config, show_ctrls, options, ongoing, paused, game_over);
+type game_state is (opening_menu, main_menu, game_config, show_ctrls, options, ongoing, paused, game_over);
 
 constant min_selection : integer := 1;
 constant max_selection : integer := 3;
@@ -103,8 +99,15 @@ begin
 			reset_game := '1';
 			
 			case present_state is
-			when main_menu =>
+			
+			when opening_menu =>
 				background_mux	<= "001";
+				if select_item = '1' then
+					present_state := main_menu;
+				end if;
+			
+			when main_menu =>
+				background_mux	<= "010";
 				
 				if down_arrow = '1' then
 					selector := selector + 1;
@@ -128,15 +131,15 @@ begin
 						reset_game		:= '0';
 						selector 		:= 0;
 						game_enable		<= '1';
-						background_mux	<= "010";
+						background_mux	<= "011";
 						
 					when 2 =>
 						present_state 	:= show_ctrls;
-						selector			:= 0;
+						selector			:= 4;
 						
 					when 3 =>
 						present_state	:= options;
-						selector			:= 1;
+						selector			:= 5;
 					
 					when others =>
 						null;
@@ -145,8 +148,8 @@ begin
 				
 			when show_ctrls =>
 				if r_key = '1' then
-					present_state 		:= main_menu;
-					selector				:= 2;
+					present_state 	:= main_menu;
+					selector			:= 2;
 				end if;
 				
 			when options =>
@@ -156,7 +159,9 @@ begin
 				end if;
 			
 			when ongoing =>	
-			
+				
+				background_mux	<= "011";
+
 				if pause_game = '1' then
 					present_state 	:= paused;
 					game_enable 	<= '0';
@@ -213,13 +218,15 @@ begin
 				if (current_health1 <= 0) then
 					current_health1 := 0;
 					present_state   := game_over;
+					game_enable		<= '0';
 					is_game_over <= '1';
 				end if;
 				
 				if (current_health2 <= 0) then
 					current_health2 := 0;
 					present_state   := game_over;
-					is_game_over <= '1';
+					game_enable		<= '0';
+					is_game_over	<= '1';				
 				end if;
 				
 			when paused =>
@@ -228,8 +235,21 @@ begin
 					game_enable		<= '1';
 				end if;
 				
-			--when game_over =>
-			
+			when game_over =>
+				--background_mux should show game over
+				if r_key = '1' then
+					--TODO maybe init more signals
+					game_enable		<= '1';
+					is_game_over	<= '0';
+					game_resetN		<= '0';
+					present_state	:= ongoing;
+				elsif select_item = '1' then
+					is_game_over	<= '0';
+					game_resetN		<= '0';
+					present_state	:= main_menu;
+				end if;
+					
+					
 			when others =>
 				current_health1 := current_health1;
 				current_health2 := current_health2;
@@ -240,6 +260,7 @@ begin
 		player1_health <=	current_health1;
 		player2_health <=	current_health2;
 		game_resetN		<= reset_game;
+		selector_pos	<= selector;
 	end process;
 
 end behav;

@@ -17,9 +17,9 @@ port 	(
 		initial_x_pos		: in integer range 0 to 640;
 		opponent_x_pos		: in integer;
 		opponent_y_pos		: in integer;
-		initial_direction : in std_logic;
 		player_health 		: in integer;
 		is_game_over		: in std_logic;
+		initial_direction : in std_logic;
 		---
 		ObjectStartX	: out integer ;
 		ObjectStartY	: out integer;
