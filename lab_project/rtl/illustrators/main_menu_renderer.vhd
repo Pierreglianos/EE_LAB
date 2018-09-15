@@ -74,15 +74,29 @@ begin
 		
 		-- draw the options to select
 		else
-			
-			-- draw the selector in the appropriate position
-			if selector_pos = match_sel then
-			
-			elsif selector_pos = ctrls_sel then
-			
-			else
-				mVGA_RGB <= (others => '0');
-				
+		
+			if(oCoordX >= OPTIONS_Start_X and oCoordX <= OPTIONS_End_X 
+			and oCoordY >= OPTIONS_Start_Y and oCoordY <= OPTIONS_End_Y) then
+				bCoord_X 	:= (oCoordX - OPTIONS_Start_X);
+				bCoord_Y 	:= (oCoordY - OPTIONS_Start_Y);
+            mVGA_RGB 	<= OPTIONS_colors(bCoord_Y , bCoord_X);
+         
+			elsif(oCoordX >= OPTIONS_Start_X - SELECTOR_X_size and oCoordX < OPTIONS_Start_X
+			and oCoordY >= OPTIONS_Start_Y and oCoordY < OPTIONS_End_Y + SELECTOR_Y_size) then
+				if(selector_pos = match_sel and oCoordY >= OPTIONS_Start_Y - 3 
+				and oCoordY < OPTIONS_Start_Y + SELECTOR_Y_size) then
+					bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - OPTION_X_size));
+					bCoord_Y 	:= (oCoordY - OPTIONS_Start_Y);
+					mVGA_RGB 	<= SELECTOR_colors(bCoord_Y , bCoord_X);
+            elsif(selector_pos = ctrls_sel and oCoordY >= OPTIONS_Start_Y + 25
+				and oCoordY < OPTIONS_Start_Y + 25 + SELECTOR_Y_size) then
+					bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - SELECTOR_X_size));
+					bCoord_Y 	:= (oCoordY - (OPTIONS_Start_Y + 25));
+					mVGA_RGB 	<= SELECTOR_colors(bCoord_Y , bCoord_X);
+            else
+					mVGA_RGB <= (others => '0');
+				end if;
+			end if;	
 		end if;
 		
 		--case selector_pos is
