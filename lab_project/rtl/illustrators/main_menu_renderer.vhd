@@ -71,7 +71,64 @@ begin
 		
 		-- draw the controlers instructions
 		elsif selector_pos = show_ctrls_sel then
-		
+			if(oCoord_X >= CONTROLS_MENU_Start_X and oCoord_X < CONTROLS_MENU_End_X 
+			and oCoord_Y >= CONTROLS_MENU_Start_Y and oCoord_Y < CONTROLS_MENU_End_Y) then
+				if(oCoord_X >= CONTROLS_MENU_Start_X and oCoord_X < CONTROLS_MENU_Start_X + CONTROLS_PLAYER1_X_size and 
+					oCoord_Y < CONTROLS_MENU_Start_Y + CONTROLS_PLAYER1_Y_size ) then 
+						bCoord_X 	:= (oCoord_X - CONTROLS_MENU_Start_X);
+						bCoord_Y 	:= (oCoord_Y - CONTROLS_MENU_Start_Y);
+						mVGA_RGB 	<= CONTROLS_PLAYER1_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_Start_X + CONTROLS_PLAYER1_X_size + 125 and 
+					oCoord_Y < CONTROLS_MENU_Start_Y + CONTROLS_PLAYER2_Y_size ) then 
+						bCoord_X 	:= (oCoord_X - (CONTROLS_MENU_Start_X + CONTROLS_PLAYER1_X_size + 125));
+						bCoord_Y 	:= (oCoord_Y - CONTROLS_MENU_Start_Y);
+						mVGA_RGB 	<= CONTROLS_PLAYER2_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_MOVEMENT_KEYS1_Start_X and oCoord_X < CONTROLS_MENU_MOVEMENT_KEYS1_End_X and 
+					oCoord_Y >= CONTROLS_MENU_MOVEMENT_KEYS1_Start_Y and oCoord_Y < CONTROLS_MENU_MOVEMENT_KEYS1_End_Y) then 
+						bCoord_X 	:= (oCoord_X - CONTROLS_MENU_MOVEMENT_KEYS1_Start_X);
+						bCoord_Y 	:= (oCoord_Y - CONTROLS_MENU_MOVEMENT_KEYS1_Start_Y);
+						mVGA_RGB 	<= CONTROLS_MOVEMENT_KEYS_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_MOVEMENT_KEYS1_End_X + 10 and oCoord_X < CONTROLS_MENU_MOVEMENT_KEYS1_End_X + 10 + CONTROLS_MOVEMENT_X_size and 
+				oCoord_Y >= CONTROLS_MENU_MOVEMENT_KEYS1_Start_Y + 15 and oCoord_Y < CONTROLS_MENU_MOVEMENT_KEYS1_Start_Y + 23) then
+						bCoord_X 	:= (oCoord_X - (CONTROLS_MENU_MOVEMENT_KEYS1_End_X + 10));
+						bCoord_Y 	:= (oCoord_Y - (CONTROLS_MENU_MOVEMENT_KEYS1_Start_Y + 15));
+						mVGA_RGB 	<= CONTROLS_MOVEMENT_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_ATTACK_KEYS1_Start_X + 80 and oCoord_X < CONTROLS_MENU_ATTACK_KEYS1_Start_X + 127 and 
+					oCoord_Y >= CONTROLS_MENU_ATTACK_KEYS1_Start_Y + 5 and oCoord_Y < CONTROLS_MENU_ATTACK_KEYS1_Start_Y + 5 + CONTROLS_KICK_Y_size) then
+						bCoord_X 	:= (oCoord_X - (CONTROLS_MENU_ATTACK_KEYS1_Start_X + 80));
+						bCoord_Y 	:= (oCoord_Y - (CONTROLS_MENU_ATTACK_KEYS1_Start_Y + 5));
+						mVGA_RGB 	<= CONTROLS_KICK_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_ATTACK_KEYS1_Start_X + 63 and oCoord_X < CONTROLS_MENU_ATTACK_KEYS1_Start_X + 133 and 
+					oCoord_Y >= CONTROLS_MENU_ATTACK_KEYS1_Start_Y + 35  and oCoord_Y < CONTROLS_MENU_ATTACK_KEYS1_Start_Y + 35 + CONTROLS_SHOOT_Y_size) then
+						bCoord_X 	:= (oCoord_X - (CONTROLS_MENU_ATTACK_KEYS1_Start_X + 63));
+						bCoord_Y 	:= (oCoord_Y - (CONTROLS_MENU_ATTACK_KEYS1_Start_Y+ 35));
+						mVGA_RGB 	<= CONTROLS_SHOOT_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_ATTACK_KEYS1_Start_X + 63 and oCoord_X < CONTROLS_MENU_ATTACK_KEYS1_Start_X + 133 and 
+					oCoord_Y >= CONTROLS_MENU_ATTACK_KEYS1_Start_Y + 70  and oCoord_Y < CONTROLS_MENU_ATTACK_KEYS1_Start_Y + 70 + CONTROLS_PUNCH_Y_size) then
+						bCoord_X 	:= (oCoord_X - (CONTROLS_MENU_ATTACK_KEYS1_Start_X + 63));
+						bCoord_Y 	:= (oCoord_Y - (CONTROLS_MENU_ATTACK_KEYS1_Start_Y+ 70));
+						mVGA_RGB 	<= CONTROLS_PUNCH_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_MOVEMENT_KEYS2_Start_X and oCoord_X < CONTROLS_MENU_MOVEMENT_KEYS2_End_X and 
+					oCoord_Y >= CONTROLS_MENU_MOVEMENT_KEYS2_Start_Y and oCoord_Y < CONTROLS_MENU_MOVEMENT_KEYS2_End_Y) then 
+						bCoord_X 	:= (oCoord_X - CONTROLS_MENU_MOVEMENT_KEYS2_Start_X);
+						bCoord_Y 	:= (oCoord_Y - CONTROLS_MENU_MOVEMENT_KEYS2_Start_Y);
+						mVGA_RGB 	<= CONTROLS_MOVEMENT_KEYS2_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_ATTACK_KEYS1_Start_X and oCoord_X < CONTROLS_MENU_ATTACK_KEYS1_End_X and 
+					oCoord_Y >= CONTROLS_MENU_ATTACK_KEYS1_Start_Y and oCoord_Y < CONTROLS_MENU_ATTACK_KEYS1_End_Y) then 
+						bCoord_X 	:= (oCoord_X - CONTROLS_MENU_ATTACK_KEYS1_Start_X);
+						bCoord_Y 	:= (oCoord_Y - CONTROLS_MENU_ATTACK_KEYS1_Start_Y);
+						mVGA_RGB 	<= CONTROLS_ATTACKS_KEYS_colors(bCoord_Y , bCoord_X);
+				elsif(oCoord_X >= CONTROLS_MENU_ATTACK_KEYS2_Start_X and oCoord_X < CONTROLS_MENU_ATTACK_KEYS2_End_X and 
+					oCoord_Y >= CONTROLS_MENU_ATTACK_KEYS2_Start_Y and oCoord_Y < CONTROLS_MENU_ATTACK_KEYS2_End_Y) then
+						bCoord_X 	:= (oCoord_X - CONTROLS_MENU_ATTACK_KEYS2_Start_X);
+						bCoord_Y 	:= (oCoord_Y - CONTROLS_MENU_ATTACK_KEYS2_Start_Y);
+						mVGA_RGB 	<= CONTROLS_ATTACKS_KEYS2_colors(bCoord_Y , bCoord_X);
+				else 
+						mVGA_RGB 	<= (others => '0');
+				end if;
+			else 
+				mVGA_RGB 	<= (others => '0');
+			end if;
 		-- draw the options to select
 		else
 		
@@ -96,6 +153,8 @@ begin
             else
 					mVGA_RGB <= (others => '0');
 				end if;
+			else 
+				mVGA_RGB <= (others => '0');
 			end if;	
 		end if;
 		
@@ -121,6 +180,6 @@ begin
 			--	mVGA_RGB <= credits_colors(oCoord_Y, oCoord_X);	
 	end if;
 
-  end process;
+end process;
 
 end behav;
