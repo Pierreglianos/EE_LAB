@@ -5,7 +5,6 @@ use ieee.numeric_std.all;
 
 library lab_project;
 use lab_project.STREET_FIGHTER_PCKG.all;
-use lab_project.main_menu_frames.all;
 use lab_project.MAIN_MENU_PCKG.all;
 
 entity main_menu_renderer is
@@ -23,17 +22,68 @@ port 	(
 	);
 end main_menu_renderer;
 
-architecture behav of main_menu_renderer is 
+
+architecture behav of main_menu_renderer is
+
+constant base_color 	: std_logic_vector(7 downto 0) := X"1A";
+constant max_color	: std_logic_vector(7 downto 0) := X"B6";
+
 begin
 	
 	process ( RESETn, CLK)
-	   	variable bCoord_X : integer := 0;-- offset from start position 
-			variable bCoord_Y : integer := 0;
+	   variable bCoord_X : integer := 0;-- offset from start position 
+		variable bCoord_Y : integer := 0;
+		variable counter	: std_logic_vector(2 downto 0);
+		variable current_color : std_logic_vector(7 downto 0) := base_color;
+		
 	begin
 	if RESETn = '0' then
-	    mVGA_RGB	<=  (others => '0') ;
-
+	   mVGA_RGB	<=  (others => '0') ;
+		current_color := base_color;
+		counter := "000";
 	elsif rising_edge(CLK) then
+		
+		if (timer_done = '1') then
+			counter := counter + 1;
+			if (counter = "000") then
+				current_color := current_color + base_color;
+			end if;
+			if (current_color > max_color) then
+				current_color := base_color;
+			end if;
+		end if;
+		
+		
+		if selcetor_pos = start_sel then
+			if	(oCoord_X >= press_Start_X and oCoord_X <= press_End_X 
+					and oCoord_Y >= press_Start_Y	and oCoord_Y <= press_End_Y) then
+				bCoordX	:= oCoord_X - press_Start_X;
+				bCoordY	:= oCoord_Y - press_Start_Y;
+				if (press_S_colors(bCoordY , bCoordX) = x"00") then
+					mVGA_RGB <= (others => '0');
+				else
+					mVGA_RGB <= press_S_colors(bCoordY , bCoordX) + current_color;
+				end if;
+
+			else
+				mVGA_RGB <= (others => '0');
+			end if;
+		
+		-- draw the controlers instructions
+		elsif selector_pos = show_ctrls_sel then
+		
+		-- draw the options to select
+		else
+			
+			-- draw the selector in the appropriate position
+			if selector_pos = match_sel then
+			
+			elsif selector_pos = ctrls_sel then
+			
+			else
+				mVGA_RGB <= (others => '0');
+				
+		end if;
 		
 		--case selector_pos is
 		
@@ -53,82 +103,8 @@ begin
 --				mVGA_RGB <= credits_menu_colors(oCoordY, oCoordX);
 				
 			--when others	=>
-			--	mVGA_RGB <= credits_colors(oCoordY, oCoordX);
-		if(oCoordX >= TECH_Start_X and oCoordX <= TECH_End_X and oCoordY >= TECH_Start_Y and oCoordY <= TECH_End_Y) then 
-			if(oCoordX >= TECH_Start_X and oCoordX < TECH_Start_X + TECH_T_X_size) then 
-				bCoord_X 	:= (oCoordX - TECH_Start_X);
-				bCoord_Y 	:= (oCoordY - TECH_Start_Y);
-				mVGA_RGB <= TECH_T_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= TECH_Start_X + TECH_T_X_size and oCoordX < TECH_Start_X + TECH_T_X_size + TECH_E_X_size ) then
-				bCoord_X 	:= (oCoordX - (TECH_Start_X + TECH_T_X_size));
-				bCoord_Y 	:= (oCoordY - TECH_Start_Y);
-				mVGA_RGB <= TECH_E_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= TECH_Start_X + TECH_T_X_size + TECH_E_X_size  and oCoordX < TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size) then 
-				bCoord_X 	:= (oCoordX - (TECH_Start_X + TECH_T_X_size + TECH_E_X_size));
-				bCoord_Y 	:= (oCoordY - TECH_Start_Y);
-				mVGA_RGB <= TECH_C_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size and oCoordX < TECH_End_X) then 
-				bCoord_X 	:= (oCoordX - (TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size));
-				bCoord_Y 	:= (oCoordY - TECH_Start_Y);
-				mVGA_RGB <= TECH_H_colors(bCoord_Y , bCoord_X);
-			else
-				mVGA_RGB <= (others => '0');
-			end if;
-		elsif(oCoordX >= FIGHTER_Start_X and oCoordX <= FIGHTER_End_X and oCoordY >= FIGHTER_Start_Y and oCoordY <= FIGHTER_End_Y) then
-			if(oCoordX >= FIGHTER_Start_X and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size) then 
-				bCoord_X 	:= (oCoordX - FIGHTER_Start_X);
-				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
-				mVGA_RGB <= FIGHTER_F_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size) then 
-				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size));
-				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
-				mVGA_RGB <= FIGHTER_I_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size) then 
-				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size));
-				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
-				mVGA_RGB <= FIGHTER_G_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size) then 
-				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size));
-				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
-				mVGA_RGB <= FIGHTER_H_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size  and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size ) then 
-				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size));
-				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
-				mVGA_RGB <= FIGHTER_T_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size  and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size) then 
-				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size));
-				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
-				mVGA_RGB <= FIGHTER_E_colors(bCoord_Y , bCoord_X);
-			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size and oCoordX < FIGHTER_End_X) then 
-				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size));
-				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
-				mVGA_RGB <= FIGHTER_R_colors(bCoord_Y , bCoord_X);
-			else
-				mVGA_RGB <= (others => '0');
-			end if;
-		elsif(oCoordX >= OPTIONS_Start_X and oCoordX <= OPTIONS_End_X and oCoordY >= OPTIONS_Start_Y and oCoordY <= OPTIONS_End_Y) then
-			bCoord_X 	:= (oCoordX - OPTIONS_Start_X);
-			bCoord_Y 	:= (oCoordY - OPTIONS_Start_Y);
-			mVGA_RGB <= CONTROLS_colors(bCoord_Y , bCoord_X);
-		elsif(oCoordX >= OPTIONS_Start_X - OPTION_X_size and oCoordX < OPTIONS_Start_X and oCoordY >= OPTIONS_Start_Y and oCoordY < OPTIONS_End_Y + OPTION_Y_size) then 
-			if(selector_pos = 1 and oCoordY >= OPTIONS_Start_Y - 3 and oCoordY < OPTIONS_Start_Y + OPTION_Y_size) then 
-				bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - OPTION_X_size));
-				bCoord_Y 	:= (oCoordY - OPTIONS_Start_Y);
-				mVGA_RGB <= OPTION_colors(bCoord_Y , bCoord_X);
-			elsif(selector_pos = 2 and oCoordY >= OPTIONS_Start_Y + 25 and oCoordY < OPTIONS_Start_Y + 25 + OPTION_Y_size) then 
-				bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - OPTION_X_size));
-				bCoord_Y 	:= (oCoordY - (OPTIONS_Start_Y + 25));
-				mVGA_RGB <= OPTION_colors(bCoord_Y , bCoord_X);
-			elsif(selector_pos = 3 and oCoordY >= OPTIONS_Start_Y + 47 and oCoordY < OPTIONS_Start_Y + 47 + OPTION_Y_size) then
-				bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - OPTION_X_size));
-				bCoord_Y 	:= (oCoordY - (OPTIONS_Start_Y + 47));
-				mVGA_RGB <= OPTION_colors(bCoord_Y , bCoord_X);
-			else
-				mVGA_RGB <= (others => '0');
-			end if;
-		else
-			mVGA_RGB <= (others => '0');
-		end if;
+			
+			--	mVGA_RGB <= credits_colors(oCoordY, oCoordX);	
 	end if;
 
   end process;

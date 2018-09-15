@@ -11,7 +11,7 @@ port 	(
 		RESETn : in std_logic;
 
 		background_selector		: in std_logic_vector(2 downto 0);
-		opening_menu_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- background  input signal
+		static_menu_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- background  input signal
 		main_menu_mVGA_RGB 		: in std_logic_vector(7 downto 0);
 		arena_mVGA_RGB		 		: in std_logic_vector(7 downto 0);
 		
@@ -63,11 +63,14 @@ begin
 			m_mVGA_t <= life_bar_mVGA_RGB ;
 		else
 			case background_selector is
-			when "001" =>
-				m_mVGA_t <= opening_menu_mVGA_RGB ;
-			when "010" =>
-				m_mVGA_t <= main_menu_mVGA_RGB ;
-			when "011" =>
+			when menu_background =>
+				if (main_menu_mVGA_RGB = x"00") then
+					m_mVGA_t <= static_menu_mVGA_RGB ;
+				else
+					m_mVGA_t <= main_menu_mVGA_RGB ;
+				end if;
+				
+			when arena_background =>
 				m_mVGA_t <= arena_mVGA_RGB ;
 			when others =>
 				m_mVGA_t <= (others => '0');

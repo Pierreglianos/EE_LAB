@@ -39,6 +39,19 @@ package STREET_FIGHTER_PCKG is
 	constant kbd_P_key 	: std_logic_vector(8 downto 0) := "001001101"; -- 0x4D
 	constant kbd_R_key	: std_logic_vector(8 downto 0) := "000101101"; -- 0x2D
 ---------------------------------------------------------------------
+-- Menu defines --------------------------------------------
+	constant start_sel		: integer := 0;
+	constant match_sel		: integer := 1;
+	constant ctrls_sel		: integer := 2;
+	constant show_ctrls_sel	: integer := 3;
+	
+	constant min_selection	: integer := 1;
+	constant max_selection	: integer := 2;
+	
+	constant menu_background	: std_logic := '0';
+	constant arena_background	: std_logic := '1';
+	
+---------------------------------------------------------------------
 -- Player logic defines --------------------------------------------
 	constant player_action_none			: std_logic_vector(2 downto 0) := "000";
 	constant player_action_move_left		: std_logic_vector(2 downto 0) := "001";

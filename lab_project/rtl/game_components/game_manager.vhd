@@ -55,9 +55,6 @@ architecture behav of game_manager is
 
 type game_state is (opening_menu, main_menu, game_config, show_ctrls, options, ongoing, paused, game_over);
 
-constant min_selection : integer := 1;
-constant max_selection : integer := 3;
-
 begin
 
 	process (RESETn, CLK)
@@ -88,7 +85,7 @@ begin
 			selector			:= 1;
 			reset_game := '1';
 			-- TODO init to main_menu
-			present_state 	:= main_menu;
+			present_state 	:= opening_menu;
 			
 			up_was_pressed 	:= '0';
 			down_was_pressed 	:= '0';
@@ -100,8 +97,8 @@ begin
 			p2_figure		<= "00";
 			arena				<= "00";
 			
-			background_mux	<= "001";
-			selector_pos	<= 1;
+			background_mux	<= menu_background;
+			selector_pos	<= start_sel;
 			
 		elsif (rising_edge(CLK)) then
 			reset_game := '1';
@@ -109,13 +106,13 @@ begin
 			case present_state is
 			
 			when opening_menu =>
-				background_mux	<= "001";
+				background_mux	<= menu_background;
 				if select_item = '1' then
 					present_state := main_menu;
 				end if;
 			
 			when main_menu =>
-				background_mux	<= "010";
+				background_mux	<= menu_background;
 				
 				if down_arrow = '1' and down_was_pressed = '0' then
 					selector := selector + 1;
@@ -139,22 +136,17 @@ begin
 				
 				if select_item = '1' then
 					case selector is
-					when 1 =>
+					when match_sel =>
 						-- TODO change to game config and move this logic to there
 						present_state	:= ongoing;
 						reset_game		:= '0';
-						selector 		:= 0;
 						game_enable		<= '1';
-						background_mux	<= "011";
+						background_mux	<= arena_background;
 						
-					when 2 =>
+					when ctrls_sel =>
 						present_state 	:= show_ctrls;
-						selector			:= 4;
+						selector			:= show_ctrls_sel;
 						
-					when 3 =>
-						present_state	:= options;
-						selector			:= 5;
-					
 					when others =>
 						null;
 					end case;
@@ -163,18 +155,12 @@ begin
 			when show_ctrls =>
 				if r_key = '1' then
 					present_state 	:= main_menu;
-					selector			:= 2;
-				end if;
-				
-			when options =>
-				if r_key = '1' then
-					present_state	:= main_menu;
-					selector 		:= 3;
+					selector			:= ctrls_sel;
 				end if;
 			
 			when ongoing =>	
 				
-				background_mux	<= "011";
+				background_mux	<= arena_background;
 
 				if pause_game = '1' then
 					present_state 	:= paused;

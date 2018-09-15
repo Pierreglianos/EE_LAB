@@ -6,13 +6,13 @@ use ieee.std_logic_arith.all;
 
 library lab_project;
 use lab_project.STREET_FIGHTER_PCKG.all;
-use lab_project.player_renderer_package.all;
+--use lab_project.player_renderer_package.all;
 
 
 entity player_renderer is
 port 	(
 		--////////////////////	Clock Input	 	////////////////////	
-	   	CLK  		: in std_logic;
+	   CLK  		: in std_logic;
 		RESETn		: in std_logic;
 		oCoord_X	: in integer;
 		oCoord_Y	: in integer;
