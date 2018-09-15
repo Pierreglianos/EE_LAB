@@ -127,14 +127,17 @@ process ( RESETn, CLK)
 			case PlayerState is
 				when  player_state_idle | player_state_move_left | player_state_move_right =>
 					current_color := X"66"; -- yellow
+					pixel_valid = '1';
 					--current_color := PinkIdle_colors(bCoord_Y , bCoord_X);
 					--pixel_valid := PinkIdle_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
 				when player_state_duck =>
 					current_color := X"E0"; -- red
+					pixel_valid = '1';
 					--current_color := PinkDucking_colors(bCoord_Y , bCoord_X);
 					--pixel_valid := PinkDucking_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
 				when player_state_shoot =>
 					current_color := X"07";
+					pixel_valid = '1';
 					--shoot_colors
 					--current_color := PinkShoot_colors(bCoord_Y , bCoord_X);
 				--	pixel_valid := PinkShoot_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
@@ -151,7 +154,7 @@ process ( RESETn, CLK)
 --		end if;
 			
 		mVGA_RGB				<=  current_color;	--get from colors table 
-		drawing_request	<=  pixel_valid; -- get from mask table if inside rectangle  
+		drawing_request	<=  pixel_valid and drawing_X and drawing_Y; -- get from mask table if inside rectangle  
 	end if;
 
   end process;

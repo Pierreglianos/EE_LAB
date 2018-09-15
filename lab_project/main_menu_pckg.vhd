@@ -129,7 +129,7 @@ constant press_End_X 	: integer := press_Start_X + press_S_X_size;
 constant press_Start_Y 	: integer := 350;
 constant press_End_Y 	: integer := press_Start_Y + press_S_Y_size;
 
-constant OPTIONS_Start_X : integer := 220;
+constant OPTIONS_Start_X : integer := 250;
 constant OPTIONS_End_X : integer := OPTIONS_Start_X + OPTIONS_X_size;
 
 constant OPTIONS_Start_Y : integer :=  320;

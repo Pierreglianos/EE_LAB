@@ -112,6 +112,8 @@ begin
 							when player_state_move_left =>
 								ObjectStartX_t := ObjectStartX_t - step_wid;
 								if (ObjectStartX_t <= opponent_x_pos + player_width_t
+										and ObjectStartX_t > opponent_x_pos 
+										and ObjectStartY_t <= opponent_y_pos + player_length_t
 										and ObjectStartX_t > opponent_x_pos) then
 									ObjectStartX_t := opponent_x_pos + player_width_t + 1;
 								

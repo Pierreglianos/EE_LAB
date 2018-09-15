@@ -128,7 +128,8 @@ architecture kbd_to_parser_intf_arch of kbd_to_parser_intf is
 						when others =>
 							null;
 					end case;
-				elsif(break = '1') then -- make sure make and break can't be 1 simultaniously
+				end if;
+				if(break = '1') then -- make sure make and break can't be 1 simultaniously
 					case data is
 						when kbd_left_arrow =>
 							left_press := '0';

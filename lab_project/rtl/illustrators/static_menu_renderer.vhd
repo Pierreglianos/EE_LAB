@@ -24,13 +24,14 @@ end static_menu_renderer;
 
 architecture behav of static_menu_renderer is 
 
+
 begin
 	
 	process ( RESETn, CLK)
 	
-	variable bCoordX	: integer;
-	variable bCoordY	: integer;
-
+	variable bCoord_X	: integer;
+	variable bCoord_Y	: integer;
+	
 	begin
 	if RESETn = '0' then
 	   mVGA_RGB	<=  (others => '0') ;
@@ -89,6 +90,15 @@ begin
 			else
 				mVGA_RGB <= (others => '0');
 			end if;
+		elsif (oCoord_X >= UFRAME_Start_X and oCoord_X <= UFRAME_End_X and oCoord_Y >= UFRAME_Start_Y and oCoord_Y < UFRAME_End_Y) then
+			bCoord_X		:= (oCoord_X - UFRAME_Start_X) mod 4;
+			bCoord_Y		:= (oCoord_Y - UFRAME_Start_Y);
+			if (UFRAME_bmp(bCoord_Y, bCoord_X) = '1') then
+				mVGA_RGB <= UFRAME_color;
+			else
+				mVGA_RGB <= (others => '0');
+			end if;
+				
 		else
 			mVGA_RGB <= (others => '0');
 		end if;		

@@ -2,15 +2,17 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.all;
 use IEEE.std_logic_unsigned.all;
 use ieee.numeric_std.all;
--- Alex Grinshpun Apr 2017
--- Dudy Nov 13 2017
+
+library lab_project;
+use lab_project.STREET_FIGHTER_PCKG.all;
+
 
 entity objects_mux is
 port 	(
 		CLK	: in std_logic; --						//	27 MHz
 		RESETn : in std_logic;
 
-		background_selector		: in std_logic_vector(2 downto 0);
+		background_selector		: in std_logic;
 		static_menu_mVGA_RGB 	: in std_logic_vector(7 downto 0); --	, -- background  input signal
 		main_menu_mVGA_RGB 		: in std_logic_vector(7 downto 0);
 		arena_mVGA_RGB		 		: in std_logic_vector(7 downto 0);

@@ -682,7 +682,37 @@ constant TECH_T_colors: TECH_T_color_array := (
 ( x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"24", x"24", x"24", x"24", x"24", x"24", x"24", x"24", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00", x"00")
 );
 
-constant TECH_Start_X 	: integer := 207;
+constant UFRAME_bmp_X_size : integer := 4;
+constant UFRAME_bmp_Y_size : integer := 22;
+type UFRAME_bmp_array is array(0 to UFRAME_bmp_Y_size - 1 , 0 to UFRAME_bmp_X_size - 1) of std_logic;
+
+constant UFRAME_bmp: UFRAME_bmp_array := (
+( '1', '1', '0', '0'),
+( '1', '1', '0', '0'),
+( '0', '0', '1', '1'),
+( '0', '0', '1', '1'),
+( '1', '1', '0', '0'),
+( '1', '1', '0', '0'),
+( '0', '0', '0', '0'),
+( '0', '0', '0', '0'),
+( '0', '0', '0', '0'),
+( '0', '0', '0', '0'),
+( '1', '1', '0', '0'),
+( '1', '1', '0', '0'),
+( '0', '0', '1', '1'),
+( '0', '0', '1', '1'),
+( '0', '0', '0', '0'),
+( '0', '0', '0', '0'),
+( '0', '0', '0', '0'),
+( '0', '0', '0', '0'),
+( '0', '0', '0', '0'),
+( '0', '0', '0', '0'),
+( '1', '1', '0', '0'),
+( '1', '1', '0', '0')
+);
+
+
+constant TECH_Start_X 	: integer := 200;
 constant TECH_End_X 		: integer := TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size + TECH_H_X_size;
 constant TECH_Start_Y 	: integer := 96;
 constant TECH_End_Y 		: integer := TECH_Start_Y + TECH_H_Y_size;
@@ -691,5 +721,13 @@ constant FIGHTER_Start_X 	: integer := TECH_Start_X;
 constant FIGHTER_End_X 		: integer := FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size + FIGHTER_R_X_size;
 constant FIGHTER_Start_Y	: integer := TECH_End_Y + 30;
 constant FIGHTER_End_Y		: integer := FIGHTER_Start_Y + FIGHTER_F_Y_size;
+
+constant UFRAME_Start_X	: integer := 65;
+constant UFRAME_Start_Y	: integer := 55;
+constant UFRAME_Size_X	: integer := 510;
+constant UFRAME_Size_Y	: integer := 22;
+constant UFRAME_End_X	: integer := UFRAME_Start_X + UFRAME_Size_X;
+constant UFRAME_End_Y	: integer := UFRAME_Start_Y + UFRAME_Size_Y;
+constant UFRAME_color	: std_logic_vector(7 downto 0) := x"07";
 
 end STATIC_MENU_PCKG;

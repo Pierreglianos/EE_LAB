@@ -14,8 +14,8 @@ port 	(
 		timer_done		: in std_logic;
 		enable			: in std_logic;
 		selector_pos	: in integer;
-		oCoordX			: in integer;
-		oCoordY			: in integer;
+		oCoord_X			: in integer;
+		oCoord_Y			: in integer;
 	
 		mVGA_RGB 		: out std_logic_vector(7 downto 0)
 
@@ -54,15 +54,15 @@ begin
 		end if;
 		
 		
-		if selcetor_pos = start_sel then
+		if selector_pos = start_sel then
 			if	(oCoord_X >= press_Start_X and oCoord_X <= press_End_X 
 					and oCoord_Y >= press_Start_Y	and oCoord_Y <= press_End_Y) then
-				bCoordX	:= oCoord_X - press_Start_X;
-				bCoordY	:= oCoord_Y - press_Start_Y;
-				if (press_S_colors(bCoordY , bCoordX) = x"00") then
+				bCoord_X	:= oCoord_X - press_Start_X;
+				bCoord_Y	:= oCoord_Y - press_Start_Y;
+				if (press_S_colors(bCoord_Y , bCoord_X) = x"00") then
 					mVGA_RGB <= (others => '0');
 				else
-					mVGA_RGB <= press_S_colors(bCoordY , bCoordX) + current_color;
+					mVGA_RGB <= press_S_colors(bCoord_Y , bCoord_X) + current_color;
 				end if;
 
 			else
@@ -75,23 +75,23 @@ begin
 		-- draw the options to select
 		else
 		
-			if(oCoordX >= OPTIONS_Start_X and oCoordX <= OPTIONS_End_X 
-			and oCoordY >= OPTIONS_Start_Y and oCoordY <= OPTIONS_End_Y) then
-				bCoord_X 	:= (oCoordX - OPTIONS_Start_X);
-				bCoord_Y 	:= (oCoordY - OPTIONS_Start_Y);
+			if(oCoord_X >= OPTIONS_Start_X and oCoord_X <= OPTIONS_End_X 
+			and oCoord_Y >= OPTIONS_Start_Y and oCoord_Y <= OPTIONS_End_Y) then
+				bCoord_X 	:= (oCoord_X - OPTIONS_Start_X);
+				bCoord_Y 	:= (oCoord_Y - OPTIONS_Start_Y);
             mVGA_RGB 	<= OPTIONS_colors(bCoord_Y , bCoord_X);
          
-			elsif(oCoordX >= OPTIONS_Start_X - SELECTOR_X_size and oCoordX < OPTIONS_Start_X
-			and oCoordY >= OPTIONS_Start_Y and oCoordY < OPTIONS_End_Y + SELECTOR_Y_size) then
-				if(selector_pos = match_sel and oCoordY >= OPTIONS_Start_Y - 3 
-				and oCoordY < OPTIONS_Start_Y + SELECTOR_Y_size) then
-					bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - OPTION_X_size));
-					bCoord_Y 	:= (oCoordY - OPTIONS_Start_Y);
+			elsif(oCoord_X >= OPTIONS_Start_X - SELECTOR_X_size and oCoord_X < OPTIONS_Start_X
+			and oCoord_Y >= OPTIONS_Start_Y and oCoord_Y < OPTIONS_End_Y + SELECTOR_Y_size) then
+				if(selector_pos = match_sel and oCoord_Y >= OPTIONS_Start_Y - 3 
+				and oCoord_Y < OPTIONS_Start_Y + SELECTOR_Y_size) then
+					bCoord_X 	:= (oCoord_X - (OPTIONS_Start_X - SELECTOR_X_size));
+					bCoord_Y 	:= (oCoord_Y - OPTIONS_Start_Y);
 					mVGA_RGB 	<= SELECTOR_colors(bCoord_Y , bCoord_X);
-            elsif(selector_pos = ctrls_sel and oCoordY >= OPTIONS_Start_Y + 25
-				and oCoordY < OPTIONS_Start_Y + 25 + SELECTOR_Y_size) then
-					bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - SELECTOR_X_size));
-					bCoord_Y 	:= (oCoordY - (OPTIONS_Start_Y + 25));
+            elsif(selector_pos = ctrls_sel and oCoord_Y >= OPTIONS_Start_Y + 25
+				and oCoord_Y < OPTIONS_Start_Y + 25 + SELECTOR_Y_size) then
+					bCoord_X 	:= (oCoord_X - (OPTIONS_Start_X - SELECTOR_X_size));
+					bCoord_Y 	:= (oCoord_Y - (OPTIONS_Start_Y + 25));
 					mVGA_RGB 	<= SELECTOR_colors(bCoord_Y , bCoord_X);
             else
 					mVGA_RGB <= (others => '0');
@@ -102,23 +102,23 @@ begin
 		--case selector_pos is
 		
 --			when 1 =>
---				mVGA_RGB <= quick_match_colors(oCoordY, oCoordX);
+--				mVGA_RGB <= quick_match_colors(oCoord_Y, oCoord_X);
 --				
 --			when 2 =>
---				mVGA_RGB <= controls_colors(oCoordY, oCoordX);
+--				mVGA_RGB <= controls_colors(oCoord_Y, oCoord_X);
 --			
 			--when 3 =>
-			--	mVGA_RGB <= credits_colors(oCoordY, oCoordX);
+			--	mVGA_RGB <= credits_colors(oCoord_Y, oCoord_X);
 --			
 --			when 4 =>
---				mVGA_RGB <= menu_controls_colors(oCoordY, oCoordX);
+--				mVGA_RGB <= menu_controls_colors(oCoord_Y, oCoord_X);
 --			
 --			when 5 =>
---				mVGA_RGB <= credits_menu_colors(oCoordY, oCoordX);
+--				mVGA_RGB <= credits_menu_colors(oCoord_Y, oCoord_X);
 				
 			--when others	=>
 			
-			--	mVGA_RGB <= credits_colors(oCoordY, oCoordX);	
+			--	mVGA_RGB <= credits_colors(oCoord_Y, oCoord_X);	
 	end if;
 
   end process;

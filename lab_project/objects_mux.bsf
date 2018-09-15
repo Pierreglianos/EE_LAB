@@ -21,7 +21,7 @@ agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 344 320)
+	(rect 16 16 328 320)
 	(text "objects_mux" (rect 5 0 55 12)(font "Arial" ))
 	(text "inst" (rect 8 288 20 300)(font "Arial" ))
 	(port
@@ -41,15 +41,15 @@ agreement for further details.
 	(port
 		(pt 0 64)
 		(input)
-		(text "background_selector[2..0]" (rect 0 0 102 12)(font "Arial" ))
-		(text "background_selector[2..0]" (rect 21 59 123 71)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64)(line_width 3))
+		(text "background_selector" (rect 0 0 82 12)(font "Arial" ))
+		(text "background_selector" (rect 21 59 103 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64)(line_width 1))
 	)
 	(port
 		(pt 0 80)
 		(input)
-		(text "opening_menu_mVGA_RGB[7..0]" (rect 0 0 142 12)(font "Arial" ))
-		(text "opening_menu_mVGA_RGB[7..0]" (rect 21 75 163 87)(font "Arial" ))
+		(text "static_menu_mVGA_RGB[7..0]" (rect 0 0 133 12)(font "Arial" ))
+		(text "static_menu_mVGA_RGB[7..0]" (rect 21 75 154 87)(font "Arial" ))
 		(line (pt 0 80)(pt 16 80)(line_width 3))
 	)
 	(port
@@ -137,27 +137,27 @@ agreement for further details.
 		(line (pt 0 272)(pt 16 272)(line_width 3))
 	)
 	(port
-		(pt 328 32)
+		(pt 312 32)
 		(output)
 		(text "m_mVGA_R[7..0]" (rect 0 0 80 12)(font "Arial" ))
-		(text "m_mVGA_R[7..0]" (rect 227 27 307 39)(font "Arial" ))
-		(line (pt 328 32)(pt 312 32)(line_width 3))
+		(text "m_mVGA_R[7..0]" (rect 211 27 291 39)(font "Arial" ))
+		(line (pt 312 32)(pt 296 32)(line_width 3))
 	)
 	(port
-		(pt 328 48)
+		(pt 312 48)
 		(output)
 		(text "m_mVGA_G[7..0]" (rect 0 0 79 12)(font "Arial" ))
-		(text "m_mVGA_G[7..0]" (rect 228 43 307 55)(font "Arial" ))
-		(line (pt 328 48)(pt 312 48)(line_width 3))
+		(text "m_mVGA_G[7..0]" (rect 212 43 291 55)(font "Arial" ))
+		(line (pt 312 48)(pt 296 48)(line_width 3))
 	)
 	(port
-		(pt 328 64)
+		(pt 312 64)
 		(output)
 		(text "m_mVGA_B[7..0]" (rect 0 0 77 12)(font "Arial" ))
-		(text "m_mVGA_B[7..0]" (rect 230 59 307 71)(font "Arial" ))
-		(line (pt 328 64)(pt 312 64)(line_width 3))
+		(text "m_mVGA_B[7..0]" (rect 214 59 291 71)(font "Arial" ))
+		(line (pt 312 64)(pt 296 64)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 312 288)(line_width 1))
+		(rectangle (rect 16 16 296 288)(line_width 1))
 	)
 )

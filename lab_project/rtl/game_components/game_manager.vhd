@@ -43,7 +43,7 @@ port 	(
 		arena				: out std_logic_vector(1 downto 0);
 		-------
 		
-		background_mux	: out std_logic_vector(2 downto 0);
+		background_mux	: out std_logic;
 		selector_pos	: out integer
 		
 		
@@ -72,6 +72,7 @@ begin
 	variable reset_game			: std_logic;
 	variable up_was_pressed		: std_logic;
 	variable down_was_pressed	: std_logic;
+	variable s_was_pressed	: std_logic;
 
 	
 	begin
@@ -82,13 +83,14 @@ begin
 			current_health2 := 150;
 			p1_was_hit		:= '0';
 			p2_was_hit		:= '0';
-			selector			:= 1;
+			selector			:= start_sel;
 			reset_game := '1';
 			-- TODO init to main_menu
 			present_state 	:= opening_menu;
 			
 			up_was_pressed 	:= '0';
 			down_was_pressed 	:= '0';
+			s_was_pressed		:= '0';
 			
 			game_enable 	<= '0';
 			is_game_over 	<= '0';
@@ -107,8 +109,12 @@ begin
 			
 			when opening_menu =>
 				background_mux	<= menu_background;
-				if select_item = '1' then
-					present_state := main_menu;
+				if select_item = '1' and s_was_pressed = '0' then
+					present_state 	:= main_menu;
+					s_was_pressed 	:= '1';
+					selector 		:= match_sel;
+				elsif select_item = '0' then
+					s_was_pressed := '0';
 				end if;
 			
 			when main_menu =>
@@ -134,7 +140,7 @@ begin
 					up_was_pressed := '0';
 				end if;
 				
-				if select_item = '1' then
+				if select_item = '1' and s_was_pressed = '0' then
 					case selector is
 					when match_sel =>
 						-- TODO change to game config and move this logic to there
@@ -150,6 +156,8 @@ begin
 					when others =>
 						null;
 					end case;
+				elsif select_item = '0' then
+					s_was_pressed := '0';
 				end if;
 				
 			when show_ctrls =>
