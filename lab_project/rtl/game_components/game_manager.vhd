@@ -65,11 +65,16 @@ begin
 	variable current_health1	: integer;
 	variable current_health2	: integer;
 	variable p1_was_hit			: std_logic;
+	variable p1_was_kicked		: std_logic;
+	variable p1_was_punched		: std_logic;
 	variable p2_was_hit			: std_logic;
+	variable p2_was_kicked		: std_logic;
+	variable p2_was_punched		: std_logic;
 	variable selector				: integer;
 	variable	ctrl_renderer_en	: std_logic;
-	variable reset_game			: std_logic;		
-
+	variable reset_game			: std_logic;
+	variable up_was_pressed		: std_logic;
+	variable down_was_pressed	: std_logic;
 
 	
 	begin
@@ -84,6 +89,9 @@ begin
 			reset_game := '1';
 			-- TODO init to main_menu
 			present_state 	:= main_menu;
+			
+			up_was_pressed 	:= '0';
+			down_was_pressed 	:= '0';
 			
 			game_enable 	<= '0';
 			is_game_over 	<= '0';
@@ -109,18 +117,24 @@ begin
 			when main_menu =>
 				background_mux	<= "010";
 				
-				if down_arrow = '1' then
+				if down_arrow = '1' and down_was_pressed = '0' then
 					selector := selector + 1;
+					down_was_pressed := '1';
 					if selector > max_selection then
 						selector := max_selection;
 					end if;
+				elsif down_arrow = '0' then
+					down_was_pressed :='0';
 				end if;
 				
-				if up_arrow = '1' then
+				if up_arrow = '1' and up_was_pressed = '0' then
 					selector := selector - 1;
+					up_was_pressed := '1';
 					if selector < min_selection then
 						selector := min_selection;
 					end if;
+				elsif up_arrow = '0' then
+					up_was_pressed := '0';
 				end if;
 				
 				if select_item = '1' then
@@ -182,13 +196,19 @@ begin
 						if (player1_hit = '1') then
 							case player2_state is
 								when player_state_kick =>
-									current_health1 := current_health1 - 10;
-									p1_was_hit := '1';
+									if p1_was_kicked = '0' then
+										current_health1 := current_health1 - 10;
+										p1_was_kicked := '1';
+									end if;
 								when player_state_punch =>
-									current_health1 := current_health1 - 8;
-									p1_was_hit := '1';
+									if p1_was_punched = '0' then
+										current_health1 := current_health1 - 8;
+										p1_was_punched := '1';
+									end if;
 								when others =>
 									current_health1 := current_health1;
+									p1_was_kicked 	:= '0';
+									p1_was_punched := '0';
 							end case;
 						end if;
 					end if;
@@ -202,13 +222,19 @@ begin
 						if (player2_hit = '1') then
 							case player1_state is
 								when player_state_kick =>
-									current_health2 := current_health2 - 10;
-									p2_was_hit := '1';
+									if p2_was_kicked = '0' then
+										current_health2 := current_health2 - 10;
+										p2_was_kicked := '1';
+									end if;
 								when player_state_punch =>
-									current_health2 := current_health2 - 8;
-									p2_was_hit := '1';
+									if p2_was_punched = '0' then
+										current_health2 := current_health2 - 8;
+										p2_was_punched := '1';
+									end if;
 								when others =>
 									current_health2 := current_health2;
+									p1_was_kicked 	:= '0';
+									p1_was_punched := '0';
 							end case;
 						end if;
 					end if;

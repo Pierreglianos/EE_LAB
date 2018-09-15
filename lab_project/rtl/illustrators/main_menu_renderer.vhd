@@ -15,8 +15,8 @@ port 	(
 		timer_done		: in std_logic;
 		enable			: in std_logic;
 		selector_pos	: in integer;
-		oCoord_X			: in integer;
-		oCoord_Y			: in integer;
+		oCoordX			: in integer;
+		oCoordY			: in integer;
 	
 		mVGA_RGB 		: out std_logic_vector(7 downto 0)
 
@@ -54,59 +54,78 @@ begin
 				
 			--when others	=>
 			--	mVGA_RGB <= credits_colors(oCoordY, oCoordX);
-		if(oCoord_X >= TECH_Start_X and oCoord_X <= TECH_End_X and oCoord_Y >= TECH_Start_Y and oCoord_Y <= TECH_End_Y) then 
-			if(oCoord_X >= TECH_Start_X and oCoord_X < TECH_Start_X + TECH_T_X_size) then 
-				bCoord_X 	:= (oCoord_X - TECH_Start_X);
-				bCoord_Y 	:= (oCoord_Y - TECH_Start_Y);
+		if(oCoordX >= TECH_Start_X and oCoordX <= TECH_End_X and oCoordY >= TECH_Start_Y and oCoordY <= TECH_End_Y) then 
+			if(oCoordX >= TECH_Start_X and oCoordX < TECH_Start_X + TECH_T_X_size) then 
+				bCoord_X 	:= (oCoordX - TECH_Start_X);
+				bCoord_Y 	:= (oCoordY - TECH_Start_Y);
 				mVGA_RGB <= TECH_T_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= TECH_Start_X + TECH_T_X_size and oCoord_X < TECH_Start_X + TECH_T_X_size + TECH_E_X_size ) then
-				bCoord_X 	:= (oCoord_X - (TECH_Start_X + TECH_T_X_size));
-				bCoord_Y 	:= (oCoord_Y - TECH_Start_Y);
+			elsif(oCoordX >= TECH_Start_X + TECH_T_X_size and oCoordX < TECH_Start_X + TECH_T_X_size + TECH_E_X_size ) then
+				bCoord_X 	:= (oCoordX - (TECH_Start_X + TECH_T_X_size));
+				bCoord_Y 	:= (oCoordY - TECH_Start_Y);
 				mVGA_RGB <= TECH_E_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= TECH_Start_X + TECH_T_X_size + TECH_E_X_size  and oCoord_X < TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size) then 
-				bCoord_X 	:= (oCoord_X - (TECH_Start_X + TECH_T_X_size + TECH_E_X_size));
-				bCoord_Y 	:= (oCoord_Y - TECH_Start_Y);
+			elsif(oCoordX >= TECH_Start_X + TECH_T_X_size + TECH_E_X_size  and oCoordX < TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size) then 
+				bCoord_X 	:= (oCoordX - (TECH_Start_X + TECH_T_X_size + TECH_E_X_size));
+				bCoord_Y 	:= (oCoordY - TECH_Start_Y);
 				mVGA_RGB <= TECH_C_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size and oCoord_X < TECH_End_X) then 
-				bCoord_X 	:= (oCoord_X - (TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size));
-				bCoord_Y 	:= (oCoord_Y - TECH_Start_Y);
+			elsif(oCoordX >= TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size and oCoordX < TECH_End_X) then 
+				bCoord_X 	:= (oCoordX - (TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size));
+				bCoord_Y 	:= (oCoordY - TECH_Start_Y);
 				mVGA_RGB <= TECH_H_colors(bCoord_Y , bCoord_X);
 			else
 				mVGA_RGB <= (others => '0');
 			end if;
-		elsif(oCoord_X >= FIGHTER_Start_X and oCoord_X <= FIGHTER_End_X and oCoord_Y >= FIGHTER_Start_Y and oCoord_Y <= FIGHTER_End_Y) then
-			if(oCoord_X >= FIGHTER_Start_X and oCoord_X < FIGHTER_Start_X + FIGHTER_F_X_size) then 
-				bCoord_X 	:= (oCoord_X - FIGHTER_Start_X);
-				bCoord_Y 	:= (oCoord_Y - FIGHTER_Start_Y);
+		elsif(oCoordX >= FIGHTER_Start_X and oCoordX <= FIGHTER_End_X and oCoordY >= FIGHTER_Start_Y and oCoordY <= FIGHTER_End_Y) then
+			if(oCoordX >= FIGHTER_Start_X and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size) then 
+				bCoord_X 	:= (oCoordX - FIGHTER_Start_X);
+				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
 				mVGA_RGB <= FIGHTER_F_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= FIGHTER_Start_X + FIGHTER_F_X_size and oCoord_X < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size) then 
-				bCoord_X 	:= (oCoord_X - (FIGHTER_Start_X + FIGHTER_F_X_size));
-				bCoord_Y 	:= (oCoord_Y - FIGHTER_Start_Y);
+			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size) then 
+				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size));
+				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
 				mVGA_RGB <= FIGHTER_I_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size and oCoord_X < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size) then 
-				bCoord_X 	:= (oCoord_X - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size));
-				bCoord_Y 	:= (oCoord_Y - FIGHTER_Start_Y);
+			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size) then 
+				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size));
+				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
 				mVGA_RGB <= FIGHTER_G_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size and oCoord_X < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size) then 
-				bCoord_X 	:= (oCoord_X - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size));
-				bCoord_Y 	:= (oCoord_Y - FIGHTER_Start_Y);
+			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size) then 
+				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size));
+				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
 				mVGA_RGB <= FIGHTER_H_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size  and oCoord_X < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size ) then 
-				bCoord_X 	:= (oCoord_X - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size));
-				bCoord_Y 	:= (oCoord_Y - FIGHTER_Start_Y);
+			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size  and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size ) then 
+				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size));
+				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
 				mVGA_RGB <= FIGHTER_T_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size  and oCoord_X < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size) then 
-				bCoord_X 	:= (oCoord_X - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size));
-				bCoord_Y 	:= (oCoord_Y - FIGHTER_Start_Y);
+			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size  and oCoordX < FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size) then 
+				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size));
+				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
 				mVGA_RGB <= FIGHTER_E_colors(bCoord_Y , bCoord_X);
-			elsif(oCoord_X >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size and oCoord_X < FIGHTER_End_X) then 
-				bCoord_X 	:= (oCoord_X - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size));
-				bCoord_Y 	:= (oCoord_Y - FIGHTER_Start_Y);
+			elsif(oCoordX >= FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size and oCoordX < FIGHTER_End_X) then 
+				bCoord_X 	:= (oCoordX - (FIGHTER_Start_X + FIGHTER_F_X_size + FIGHTER_I_X_size + FIGHTER_G_X_size + FIGHTER_H_X_size + FIGHTER_T_X_size + FIGHTER_E_X_size));
+				bCoord_Y 	:= (oCoordY - FIGHTER_Start_Y);
 				mVGA_RGB <= FIGHTER_R_colors(bCoord_Y , bCoord_X);
 			else
 				mVGA_RGB <= (others => '0');
 			end if;
-
+		elsif(oCoordX >= OPTIONS_Start_X and oCoordX <= OPTIONS_End_X and oCoordY >= OPTIONS_Start_Y and oCoordY <= OPTIONS_End_Y) then
+			bCoord_X 	:= (oCoordX - OPTIONS_Start_X);
+			bCoord_Y 	:= (oCoordY - OPTIONS_Start_Y);
+			mVGA_RGB <= CONTROLS_colors(bCoord_Y , bCoord_X);
+		elsif(oCoordX >= OPTIONS_Start_X - OPTION_X_size and oCoordX < OPTIONS_Start_X and oCoordY >= OPTIONS_Start_Y and oCoordY < OPTIONS_End_Y + OPTION_Y_size) then 
+			if(selector_pos = 1 and oCoordY >= OPTIONS_Start_Y - 3 and oCoordY < OPTIONS_Start_Y + OPTION_Y_size) then 
+				bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - OPTION_X_size));
+				bCoord_Y 	:= (oCoordY - OPTIONS_Start_Y);
+				mVGA_RGB <= OPTION_colors(bCoord_Y , bCoord_X);
+			elsif(selector_pos = 2 and oCoordY >= OPTIONS_Start_Y + 25 and oCoordY < OPTIONS_Start_Y + 25 + OPTION_Y_size) then 
+				bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - OPTION_X_size));
+				bCoord_Y 	:= (oCoordY - (OPTIONS_Start_Y + 25));
+				mVGA_RGB <= OPTION_colors(bCoord_Y , bCoord_X);
+			elsif(selector_pos = 3 and oCoordY >= OPTIONS_Start_Y + 47 and oCoordY < OPTIONS_Start_Y + 47 + OPTION_Y_size) then
+				bCoord_X 	:= (oCoordX - (OPTIONS_Start_X - OPTION_X_size));
+				bCoord_Y 	:= (oCoordY - (OPTIONS_Start_Y + 47));
+				mVGA_RGB <= OPTION_colors(bCoord_Y , bCoord_X);
+			else
+				mVGA_RGB <= (others => '0');
+			end if;
 		else
 			mVGA_RGB <= (others => '0');
 		end if;
