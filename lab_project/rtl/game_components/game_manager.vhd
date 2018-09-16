@@ -92,6 +92,7 @@ begin
 			down_was_pressed 	:= '0';
 			s_was_pressed		:= '0';
 			
+			game_on			<= '0';
 			game_enable 	<= '0';
 			is_game_over 	<= '0';
 			game_resetN		<= '0';
@@ -147,6 +148,7 @@ begin
 						present_state	:= ongoing;
 						reset_game		:= '0';
 						game_enable		<= '1';
+						game_on			<= '1';
 						background_mux	<= arena_background;
 						
 					when ctrls_sel =>
@@ -266,6 +268,7 @@ begin
 				elsif select_item = '1' then
 					is_game_over	<= '0';
 					game_resetN		<= '0';
+					game_on			<= '0';
 					present_state	:= main_menu;
 				end if;
 					

@@ -120,11 +120,11 @@ process ( RESETn, CLK)
 			bCoord_Y 	:= 0;
 		end if;
 	
-		if(bCoord_X >= Fireball_X_size or bCoord_X < 0) then 
-			mVGA_RGB	<= X"E0";
-		else 
-			mVGA_RGB	<= Fireball_colors(bCoord_Y, bCoord_X) ; 
-		end if;
+--		if(bCoord_X >= Fireball_X_size or bCoord_X < 0) then 
+--			mVGA_RGB	<= X"E0";
+--		else 
+		mVGA_RGB	<= Fireball_colors(bCoord_Y, bCoord_X) ; 
+--		end if;
 		drawing_request	<= enable and drawing_X and drawing_Y and Fireball_bmp(bCoord_Y, bCoord_X); -- get from mask table if inside rectangle  
 	end if;
 

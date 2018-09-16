@@ -77,7 +77,7 @@ package STREET_FIGHTER_PCKG is
 	constant player_state_punch		: std_logic_vector(2 downto 0) := "111";
 
 	constant player_length_t : integer := 100; -- most likely won't need when we'll start to work with bitmaps
-	constant player_width_t  : integer := 40; -- most likely won't need when we'll start to work with bitmaps
+	constant player_width_t  : integer := 32; -- most likely won't need when we'll start to work with bitmaps
 	
 	constant player_StartX : integer := player_width_t + 20;   -- starting point
 	constant player_StartY : integer := y_frame - player_length_t;	

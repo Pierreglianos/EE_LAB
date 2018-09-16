@@ -24,14 +24,25 @@ end static_menu_renderer;
 
 architecture behav of static_menu_renderer is 
 
+constant SFRAME_Size_X	: integer := 65;
+constant SFRAME_size_Y 	: integer := 300;
+
+constant RFRAME_Start_X	: integer := 65;
+constant LFRAME_Start_X	: integer := 474;
+constant SFRAME_Start_Y : integer := 300;	
+
+constant RFRAME_End_X	: integer := RFRAME_Start_X + SFRAME_Size_X;
+constant LFRAME_End_X	: integer := LFRAME_Start_X + SFRAME_Size_X;
+constant SFRAME_End_Y 	: integer := SFRAME_Start_Y + SFRAME_size_Y;
 
 begin
 	
 	process ( RESETn, CLK)
 	
-	variable bCoord_X	: integer;
-	variable bCoord_Y	: integer;
-	
+	variable bCoord_X		: integer;
+	variable bCoord_Y		: integer;
+	variable curr_space	: integer;
+	variable line_amnt	: integer;
 	begin
 	if RESETn = '0' then
 	   mVGA_RGB	<=  (others => '0') ;
@@ -98,7 +109,26 @@ begin
 			else
 				mVGA_RGB <= (others => '0');
 			end if;
-				
+		elsif (oCoord_Y >= SFRAME_Start_Y and oCoord_Y < SFRAME_End_Y) then
+			
+			bCoord_Y		:= (oCoord_Y - SFRAME_Start_Y) mod 16;
+			if (oCoord_X >= LFRAME_Start_X and oCoord_X <= LFRAME_End_X) then
+				bCoord_X		:= (oCoord_X - LFRAME_Start_X) mod 4;
+				if (UFRAME_bmp(bCoord_Y, bCoord_X) = '1') then
+					mVGA_RGB <= UFRAME_color;
+				else 
+					mVGA_RGB <= (others => '0');
+				end if;
+			elsif (oCoord_X >= RFRAME_Start_X and oCoord_X <= RFRAME_End_X) then
+				bCoord_X		:= (oCoord_X - RFRAME_Start_X) mod 4;
+				if (UFRAME_bmp(bCoord_Y, bCoord_X) = '1') then
+					mVGA_RGB <= UFRAME_color;
+				else 
+					mVGA_RGB <= (others => '0');
+				end if;
+			else
+				mVGA_RGB <= (others => '0');
+			end if;			
 		else
 			mVGA_RGB <= (others => '0');
 		end if;		

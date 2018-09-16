@@ -712,6 +712,8 @@ constant UFRAME_bmp: UFRAME_bmp_array := (
 );
 
 
+
+
 constant TECH_Start_X 	: integer := 200;
 constant TECH_End_X 		: integer := TECH_Start_X + TECH_T_X_size + TECH_E_X_size + TECH_C_X_size + TECH_H_X_size;
 constant TECH_Start_Y 	: integer := 96;

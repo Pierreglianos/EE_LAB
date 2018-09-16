@@ -21,9 +21,10 @@ port 	(
 		PlayerState		: in std_logic_vector(2 downto 0);
 		player_direction : in std_logic;
 		
-		is_game_over : in std_logic;
-		player_won : in std_logic;
-		
+		is_game_over	: in std_logic;
+		player_won 		: in std_logic;
+		enable		 	: in std_logic;
+
 		drawing_request	: out std_logic ;
 		mVGA_RGB 	: out std_logic_vector(7 downto 0) 
 	);
@@ -127,17 +128,17 @@ process ( RESETn, CLK)
 			case PlayerState is
 				when  player_state_idle | player_state_move_left | player_state_move_right =>
 					current_color := X"66"; -- yellow
-					pixel_valid = '1';
+					pixel_valid := '1';
 					--current_color := PinkIdle_colors(bCoord_Y , bCoord_X);
 					--pixel_valid := PinkIdle_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
 				when player_state_duck =>
 					current_color := X"E0"; -- red
-					pixel_valid = '1';
+					pixel_valid := '1';
 					--current_color := PinkDucking_colors(bCoord_Y , bCoord_X);
 					--pixel_valid := PinkDucking_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
 				when player_state_shoot =>
 					current_color := X"07";
-					pixel_valid = '1';
+					pixel_valid := '1';
 					--shoot_colors
 					--current_color := PinkShoot_colors(bCoord_Y , bCoord_X);
 				--	pixel_valid := PinkShoot_bmp(bCoord_Y , bCoord_X) and drawing_X and drawing_Y ;
@@ -154,7 +155,7 @@ process ( RESETn, CLK)
 --		end if;
 			
 		mVGA_RGB				<=  current_color;	--get from colors table 
-		drawing_request	<=  pixel_valid and drawing_X and drawing_Y; -- get from mask table if inside rectangle  
+		drawing_request	<=  pixel_valid and drawing_X and drawing_Y and enable; -- get from mask table if inside rectangle  
 	end if;
 
   end process;

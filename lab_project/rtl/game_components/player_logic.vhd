@@ -114,7 +114,7 @@ begin
 								if (ObjectStartX_t <= opponent_x_pos + player_width_t
 										and ObjectStartX_t > opponent_x_pos 
 										and ObjectStartY_t <= opponent_y_pos + player_length_t
-										and ObjectStartX_t > opponent_x_pos) then
+										and ObjectStartY_t + player_length_t >= opponent_y_pos) then
 									ObjectStartX_t := opponent_x_pos + player_width_t + 1;
 								
 								elsif (ObjectStartX_t < 0) then
@@ -126,9 +126,9 @@ begin
 								
 								if (ObjectStartX_t + player_width_t >= opponent_x_pos
 										and ObjectStartX_t < opponent_x_pos 
-										and ObjectStartY_t + player_length_t > opponent_y_pos
-										and ObjectStartY_t < opponent_x_pos) then
-									ObjectStartX_t := opponent_x_pos + player_width_t + 1;
+										and ObjectStartY_t + player_length_t >= opponent_y_pos
+										and ObjectStartY_t <= opponent_y_pos + player_length_t) then
+									ObjectStartX_t := opponent_x_pos - (player_width_t + 1);
 								
 								elsif (ObjectStartX_t >= x_frame - player_width_t) then
 									ObjectStartX_t := x_frame - player_width_t;
@@ -146,7 +146,6 @@ begin
 						end if;	
 						
 					end if;
-					
 				end if;
 			end if;
 			ObjectStartX	<= ObjectStartX_t;		-- copy to outputs 	
